@@ -22,7 +22,7 @@ module.exports = class MachineHistory extends Sequelize.Model {
         type: Sequelize.DATE,
       },
       emoHistory: {
-        type: Sequelize.DATE,
+        type: Sequelize.INTEGER,
       },
       machineCode: {
         type: Sequelize.STRING(30),
@@ -38,5 +38,10 @@ module.exports = class MachineHistory extends Sequelize.Model {
       timestamps: true, // createAt, updatedAt
       paranoid: true, // deletedAt
     });
+  }
+
+  static associate(db) {
+    db.MachineHistory.belongsTo(db.User, { foreignKey: 'name', targetKey: 'name' });
+    db.MachineHistory.belongsTo(db.Machine, { foreignKey: 'machineCode', targetKey: 'code' });
   }
 };

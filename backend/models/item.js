@@ -5,6 +5,7 @@ module.exports = class Item extends Sequelize.Model {
     return super.init({
       name: {
         type: Sequelize.STRING(30),
+        unique: true,
       },
       quantity: {
         type: Sequelize.INTEGER,
@@ -23,5 +24,10 @@ module.exports = class Item extends Sequelize.Model {
       timestamps: true, // createAt, updatedAt
       paranoid: true, // deletedAt
     });
+  }
+
+  static associate(db) {
+    db.Item.hasMany(db.Order, { foreignKey: 'itemName', sourceKey: 'name' });
+    db.Item.belongsTo(db.Machine, { foreignKey: 'machineCode', targetKey: 'code' });
   }
 };

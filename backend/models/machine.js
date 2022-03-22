@@ -5,6 +5,7 @@ module.exports = class Machine extends Sequelize.Model {
     return super.init({
       code: {
         type: Sequelize.STRING(30),
+        unique: true,
       },
     }, {
       sequelize,
@@ -14,5 +15,12 @@ module.exports = class Machine extends Sequelize.Model {
       timestamps: true, // createAt, updatedAt
       paranoid: true, // deletedAt
     });
+  }
+
+  static associate(db) {
+    db.Machine.hasMany(db.EmoHistory, { foreignKey: 'machineCode', sourceKey: 'code' });
+    db.Machine.hasMany(db.MachineHistory, { foreignKey: 'machineCode', sourceKey: 'code' });
+    db.Machine.hasMany(db.Management, { foreignKey: 'machineCode', sourceKey: 'code' });
+    db.Machine.hasMany(db.Item, { foreignKey: 'machineCode', sourceKey: 'code' });
   }
 };

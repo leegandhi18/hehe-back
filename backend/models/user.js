@@ -28,7 +28,8 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.UserOrder.belongsTo(db.User, { foreignKey: 'userId', targetKey: 'userId' });
-    db.UserOrder.hasMany(db.UserOrderDetail, { foreignKey: 'orderNumber', sourceKey: 'orderNumber' });
+    db.User.hasMany(db.EmoHistory, { foreignKey: 'name', sourceKey: 'name' });
+    db.User.hasMany(db.Order, { foreignKey: 'name', sourceKey: 'name' });
+    db.User.hasMany(db.MachineHistory, { foreignKey: 'name', sourceKey: 'name' });
   }
 };

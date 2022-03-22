@@ -6,7 +6,7 @@ module.exports = class Management extends Sequelize.Model {
       state: {
         type: Sequelize.INTEGER,
       },
-      MachineCode: {
+      machineCode: {
         type: Sequelize.STRING(30),
       },
     }, {
@@ -17,5 +17,9 @@ module.exports = class Management extends Sequelize.Model {
       timestamps: true, // createAt, updatedAt
       paranoid: true, // deletedAt
     });
+  }
+
+  static associate(db) {
+    db.Management.belongsTo(db.Machine, { foreignKey: 'machineCode', targetKey: 'code' });
   }
 };

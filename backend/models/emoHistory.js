@@ -22,4 +22,9 @@ module.exports = class EmoHistory extends Sequelize.Model {
       paranoid: true, // deletedAt
     });
   }
+
+  static associate(db) {
+    db.EmoHistory.belongsTo(db.User, { foreignKey: 'name', targetKey: 'name' });
+    db.EmoHistory.belongsTo(db.Machine, { foreignKey: 'machineCode', targetKey: 'code' });
+  }
 };

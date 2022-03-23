@@ -2,6 +2,12 @@ const express = require('express');
 // const logger = require('../lib/logger');
 
 const usersRouter = require('./users');
+const ordersRouter = require('./orders');
+const machinesRouter = require('./machines');
+const itemsRouter = require('./items');
+const emoHistoriesRouter = require('./emoHistories');
+const machineHistoriesRouter = require('./machineHistories');
+const managementsRouter = require('./managements');
 
 const router = express.Router();
 
@@ -25,5 +31,11 @@ router.get('/log-test', (req, res, next) => {
 */
 
 router.use('/users', usersRouter);
+router.use('/orders', ordersRouter);
+router.use('/machines', machinesRouter);
+router.use('/items', itemsRouter);
+router.use('/emoHistories', emoHistoriesRouter);
+router.use('/machineHistories', machineHistoriesRouter);
+router.use('/managements', managementsRouter);
 
 module.exports = router;

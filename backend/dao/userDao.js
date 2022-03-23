@@ -1,6 +1,20 @@
+const Sequelize = require('sequelize');
 const { User } = require('../models/index');
 
+const { Op } = Sequelize;
+
 const dao = {
+  selectList() {
+    return new Promise((resolve, reject) => {
+      User.findAndCountAll({
+        // attributes: { exclude: ['password'] }, // password 필드 제외
+      }).then((selectList) => {
+        resolve(selectList);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   insert(params) {
     return new Promise((resolve, reject) => {
       User.create(params).then((inserted) => {
@@ -8,6 +22,54 @@ const dao = {
       }).catch((err) => {
         reject(err);
       });
+    });
+  },
+  selectInfo(params) {
+    return new Promise((resolve, reject) => {
+      User.findByPk(params.id).then((selectedInfo) => {
+        resolve(selectedInfo);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  update(params) {
+    return new Promise((resolve, reject) => {
+      User.update(
+        params,
+        {
+          where: { id: params.id },
+        },
+      ).then(([updated]) => {
+        resolve({ updatedCount: updated });
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  delete(params) {
+    return new Promise((resolve, reject) => {
+      User.destroy({
+        where: { id: params.id },
+      }).then((deleted) => {
+        resolve({ deletedCount: deleted });
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  idOverlabCheck(params) {
+    return new Promise((resolve, reject) => {
+      User.findOne({
+        where: { name: { [Op.like]: `${params.name}%` } },
+        order: [['id', 'DESC']],
+        attributes: ['name'],
+      })
+        .then((idCehckResult) => {
+          resolve(idCehckResult);
+        }).catch((err) => {
+          reject(err);
+        });
     });
   },
 };

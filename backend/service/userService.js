@@ -143,6 +143,42 @@ const service = {
       resolve(result);
     });
   },
+
+  // 로그인
+  async login(params) {
+    let result = null;
+
+    try {
+      result = await userDao.login(params);
+      logger.debug(`(userService.login) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(userService.login) ${err.toString()}`);
+      return new Promise((reslove, reject) => {
+        reject(err);
+      });
+    }
+
+    try {
+      const checkPassword = await hashUtil.checkPasswordHash(params.password, result.password);
+      if (!checkPassword) {
+        const err = new Error('Incorect name or password');
+        logger.error(err.toString());
+
+        return new Promise((resolve, reject) => {
+          reject(err);
+        });
+      }
+    } catch (err) {
+      logger.error(`(userService.login.checkPassword) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+
+    return new Promise((resolve) => {
+      resolve(result);
+    });
+  },
 };
 
 module.exports = service;

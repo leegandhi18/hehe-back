@@ -72,6 +72,18 @@ const dao = {
         });
     });
   },
+  login(params) {
+    return new Promise((resolve, reject) => {
+      User.findOne({
+        where: { name: params.name },
+      })
+        .then((idCehckResult) => {
+          resolve(idCehckResult);
+        }).catch((err) => {
+          reject(err);
+        });
+    });
+  },
 };
 
 module.exports = dao;

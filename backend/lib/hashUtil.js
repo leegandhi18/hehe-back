@@ -33,6 +33,17 @@ const hashUtil = {
       }
 
       // 1. salt와 hash 분리
+      const salt = encryptedPassword.split('.');
+      // salt[0]: salt, salt[1]: hash
+
+      // 2. login시 입력한 password로 hash 생성
+      crypto.pbkdf2(password, salt[0], iterations, 64, 'sha256', (err, derivedkey) => {
+        if (err) throw err;
+
+        const newHash = derivedkey.toString('hex');
+        if (newHash === salt[1]) resolve(true);
+        else resolve(false);
+      });
     });
   },
 };

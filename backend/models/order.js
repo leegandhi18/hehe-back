@@ -18,6 +18,9 @@ module.exports = class Order extends Sequelize.Model {
       name: {
         type: Sequelize.STRING(30),
       },
+      machineCode: {
+        type: Sequelize.STRING(30),
+      },
     }, {
       sequelize,
       // tableName: 'tableName', // table명을 수동으로 생성 함
@@ -31,5 +34,6 @@ module.exports = class Order extends Sequelize.Model {
   static associate(db) {
     db.Order.belongsTo(db.Item, { foreignKey: 'itemName', targetKey: 'name' });
     db.Order.belongsTo(db.User, { foreignKey: 'name', targetKey: 'name' });
+    db.Order.belongsTo(db.Machine, { foreignKey: 'machineCode', targetKey: 'code' });
   }
 };

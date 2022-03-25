@@ -7,7 +7,7 @@ const machinesRouter = require('./machines');
 const itemsRouter = require('./items');
 const emoHistoriesRouter = require('./emoHistories');
 const machineHistoriesRouter = require('./machineHistories');
-const managementsRouter = require('./managements');
+const managementRouter = require('./management');
 const authsRouter = require('./auth');
 
 const router = express.Router();
@@ -37,7 +37,7 @@ router.use('/machines', machinesRouter);
 router.use('/items', itemsRouter);
 router.use('/emoHistories', emoHistoriesRouter);
 router.use('/machineHistories', machineHistoriesRouter);
-router.use('/managements', managementsRouter);
+router.use('/management', managementRouter);
 router.use('/auths', authsRouter);
 
 module.exports = router;

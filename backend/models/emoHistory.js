@@ -11,7 +11,6 @@ module.exports = class EmoHistory extends Sequelize.Model {
       },
       name: {
         type: Sequelize.STRING(30),
-        unique: true,
       },
     }, {
       sequelize,

@@ -22,5 +22,6 @@ module.exports = class Machine extends Sequelize.Model {
     db.Machine.hasMany(db.MachineHistory, { foreignKey: 'machineCode', sourceKey: 'code' });
     db.Machine.hasMany(db.Management, { foreignKey: 'machineCode', sourceKey: 'code' });
     db.Machine.hasMany(db.Item, { foreignKey: 'machineCode', sourceKey: 'code' });
+    db.Machine.hasMany(db.Order, { foreignKey: 'machineCode', sourceKey: 'code' });
   }
 };

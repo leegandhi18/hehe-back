@@ -3,10 +3,6 @@ const Sequelize = require('sequelize');
 module.exports = class Order extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
-      // id: {
-      //   type: Sequelize.INTEGER,
-      //   primaryKey: true,
-      // },
       productQuantity: {
         type: Sequelize.INTEGER,
       },

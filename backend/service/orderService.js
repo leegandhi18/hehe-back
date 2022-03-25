@@ -38,6 +38,42 @@ const service = {
       resolve(inserted);
     });
   },
+  // 작업 전 list 조회
+  async beforeWorkingList() {
+    let result = null;
+
+    try {
+      result = await orderDao.selectWorkingList();
+      logger.debug(`(orderService.beforeWorkingList) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(orderService.beforeWorkingList) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+
+    return new Promise((resolve) => {
+      resolve(result);
+    });
+  },
+  // 작업 중 list 조회
+  async selectBeforeWorkingList() {
+    let result = null;
+
+    try {
+      result = await orderDao.selectBeforeWorkingList();
+      logger.debug(`(orderService.selectBeforeWorkingList) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(orderService.selectBeforeWorkingList) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+
+    return new Promise((resolve) => {
+      resolve(result);
+    });
+  },
   // 특정 작업지시서 조회
   async info(params) {
     let result = null;

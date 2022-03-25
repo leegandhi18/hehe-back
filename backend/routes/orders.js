@@ -5,7 +5,7 @@ const logger = require('../lib/logger');
 const orderService = require('../service/orderService');
 
 router.route('/')
-// 작업현황 list 조회
+// 작업현황 list 조회 - 사용할 일 없을듯
   .get(async (req, res) => {
     try {
       const result = await orderService.list();
@@ -20,12 +20,12 @@ router.route('/')
   .post(async (req, res) => {
     try {
       const params = {
-        itemName: req.body.itemName,
         productQuantity: req.body.productQuantity,
         startTime: req.body.startTime,
-        endTime: req.body.endTime,
         name: req.body.name,
+        itemName: req.body.itemName,
         machineCode: req.body.machineCode,
+        workStatus: req.body.workStatus,
       };
       logger.info(`(order.reg.params) ${JSON.stringify(params)}`);
 
@@ -46,6 +46,30 @@ router.route('/')
       res.status(200).json(result);
     } catch (err) {
       res.status(500).json({ err2: err.toString() });
+    }
+  });
+router.route('/beforeWorking')
+// 작업 전 list 조회
+  .get(async (req, res) => {
+    try {
+      const result = await orderService.beforeWorkingList();
+      logger.info(`(order.beforeWorkingList.result) ${JSON.stringify(result)}`);
+
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ err0: err.toString() });
+    }
+  });
+router.route('/working')
+// 작업 중 list 조회
+  .get(async (req, res) => {
+    try {
+      const result = await orderService.selectBeforeWorkingList();
+      logger.info(`(order.selectBeforeWorkingList.result) ${JSON.stringify(result)}`);
+
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ err0: err.toString() });
     }
   });
 router.route('/:id')
@@ -70,12 +94,12 @@ router.route('/:id')
     try {
       const params = {
         id: req.params.id,
-        itemName: req.body.itemName,
         productQuantity: req.body.productQuantity,
         startTime: req.body.startTime,
-        endTime: req.body.endTime,
         name: req.body.name,
+        itemName: req.body.itemName,
         machineCode: req.body.machineCode,
+        workStatus: req.body.workStatus,
       };
       logger.info(`(order.edit.params) ${JSON.stringify(params)}`);
 

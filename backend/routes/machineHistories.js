@@ -73,15 +73,16 @@ router.route('/:id')
     try {
       const params = {
         id: req.params.id,
+        workNum: req.body.workNum,
         itemName: req.body.itemName,
         totalQuantity: req.body.totalQuantity,
         goodQuantity: req.body.goodQuantity,
         badQuantity: req.body.badQuantity,
         startTime: req.body.startTime,
         endTime: req.body.endTime,
-        emoHistory: req.body.emoHistory,
-        machineCode: req.body.machineCode,
+        workStatus: req.body.workStatus,
         name: req.body.name,
+        machineCode: req.body.machineCode,
       };
       logger.info(`(machineHistory.edit.params) ${JSON.stringify(params)}`);
 

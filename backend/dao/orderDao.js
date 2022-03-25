@@ -23,6 +23,28 @@ const dao = {
       });
     });
   },
+  selectWorkingList() {
+    return new Promise((resolve, reject) => {
+      Order.findAndCountAll({
+        where: { workStatus: '0' },
+      }).then((selectList) => {
+        resolve(selectList);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  selectBeforeWorkingList() {
+    return new Promise((resolve, reject) => {
+      Order.findAndCountAll({
+        where: { workStatus: '1' },
+      }).then((selectList) => {
+        resolve(selectList);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   selectInfo(params) {
     return new Promise((resolve, reject) => {
       Order.findByPk(params.id).then((selectedInfo) => {

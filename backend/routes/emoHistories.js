@@ -20,9 +20,11 @@ router.route('/')
   .post(async (req, res) => {
     try {
       const params = {
+        workNum: req.body.workNum,
         time: req.body.time,
-        machineCode: req.body.machineCode,
+        workStatus: req.body.workStatus,
         name: req.body.name,
+        machineCode: req.body.machineCode,
       };
       logger.info(`(emoHistory.reg.params) ${JSON.stringify(params)}`);
 
@@ -67,9 +69,11 @@ router.route('/:id')
     try {
       const params = {
         id: req.params.id,
+        workNum: req.body.workNum,
         time: req.body.time,
-        machineCode: req.body.machineCode,
+        workStatus: req.body.workStatus,
         name: req.body.name,
+        machineCode: req.body.machineCode,
       };
       logger.info(`(emoHistory.edit.params) ${JSON.stringify(params)}`);
 

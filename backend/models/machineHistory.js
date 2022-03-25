@@ -3,6 +3,10 @@ const Sequelize = require('sequelize');
 module.exports = class MachineHistory extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
+      workNum: {
+        type: Sequelize.INTEGER,
+        unique: true,
+      },
       itemName: {
         type: Sequelize.STRING(30),
       },
@@ -21,13 +25,13 @@ module.exports = class MachineHistory extends Sequelize.Model {
       endTime: {
         type: Sequelize.DATE,
       },
-      emoHistory: {
+      workStatus: {
         type: Sequelize.INTEGER,
       },
-      machineCode: {
+      name: {
         type: Sequelize.STRING(30),
       },
-      name: {
+      machineCode: {
         type: Sequelize.STRING(30),
       },
     }, {
@@ -41,6 +45,7 @@ module.exports = class MachineHistory extends Sequelize.Model {
   }
 
   static associate(db) {
+    db.MachineHistory.belongsTo(db.Order, { foreignKey: 'workNum', targetKey: 'id' });
     db.MachineHistory.belongsTo(db.User, { foreignKey: 'name', targetKey: 'name' });
     db.MachineHistory.belongsTo(db.Machine, { foreignKey: 'machineCode', targetKey: 'code' });
   }

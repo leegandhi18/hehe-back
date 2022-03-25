@@ -3,23 +3,27 @@ const Sequelize = require('sequelize');
 module.exports = class Order extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
-      itemName: {
-        type: Sequelize.STRING(30),
-      },
+      // id: {
+      //   type: Sequelize.INTEGER,
+      //   primaryKey: true,
+      // },
       productQuantity: {
         type: Sequelize.INTEGER,
       },
       startTime: {
         type: Sequelize.DATE,
       },
-      endTime: {
-        type: Sequelize.DATE,
-      },
       name: {
+        type: Sequelize.STRING(30),
+      },
+      itemName: {
         type: Sequelize.STRING(30),
       },
       machineCode: {
         type: Sequelize.STRING(30),
+      },
+      workStatus: {
+        type: Sequelize.INTEGER,
       },
     }, {
       sequelize,
@@ -32,8 +36,11 @@ module.exports = class Order extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Order.belongsTo(db.Item, { foreignKey: 'itemName', targetKey: 'name' });
+    db.Order.hasMany(db.EmoHistory, { foreignKey: 'workNum', sourceKey: 'id' });
+    db.Order.hasMany(db.MachineHistory, { foreignKey: 'workNum', sourceKey: 'id' });
     db.Order.belongsTo(db.User, { foreignKey: 'name', targetKey: 'name' });
+    db.Order.belongsTo(db.Item, { foreignKey: 'itemName', targetKey: 'name' });
     db.Order.belongsTo(db.Machine, { foreignKey: 'machineCode', targetKey: 'code' });
+    db.Order.belongsTo(db.WorkStatus, { foreignKey: 'workStatus', targetKey: 'workStatus' });
   }
 };

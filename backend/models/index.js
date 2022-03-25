@@ -6,6 +6,7 @@ const Item = require('./item');
 const EmoHistory = require('./emoHistory');
 const MachineHistory = require('./machineHistory');
 const Order = require('./order');
+const WorkStatus = require('./workStatus');
 
 const db = {};
 
@@ -19,6 +20,7 @@ db.Item = Item;
 db.EmoHistory = EmoHistory;
 db.MachineHistory = MachineHistory;
 db.Order = Order;
+db.WorkStatus = WorkStatus;
 
 // model init
 User.init(sequelize);
@@ -28,6 +30,7 @@ Item.init(sequelize);
 EmoHistory.init(sequelize);
 MachineHistory.init(sequelize);
 Order.init(sequelize);
+WorkStatus.init(sequelize);
 
 // association(관계 생성)
 User.associate(db);
@@ -37,5 +40,6 @@ Item.associate(db);
 EmoHistory.associate(db);
 MachineHistory.associate(db);
 Order.associate(db);
+WorkStatus.associate(db);
 
 module.exports = db;

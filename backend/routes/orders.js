@@ -25,6 +25,7 @@ router.route('/')
         startTime: req.body.startTime,
         endTime: req.body.endTime,
         name: req.body.name,
+        machineCode: req.body.machineCode,
       };
       logger.info(`(order.reg.params) ${JSON.stringify(params)}`);
 
@@ -69,8 +70,12 @@ router.route('/:id')
     try {
       const params = {
         id: req.params.id,
-        password: req.body.password,
-        role: req.body.role,
+        itemName: req.body.itemName,
+        productQuantity: req.body.productQuantity,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+        name: req.body.name,
+        machineCode: req.body.machineCode,
       };
       logger.info(`(order.edit.params) ${JSON.stringify(params)}`);
 

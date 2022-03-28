@@ -1,5 +1,5 @@
 # hehe-back
-npm install express-generator -g
+npm install express-generator -g<br>
 npm install
 npm install nodemon -g
 npm install -g eslint

@@ -9,6 +9,7 @@ const emoHistoriesRouter = require('./emoHistories');
 const machineHistoriesRouter = require('./machineHistories');
 const managementRouter = require('./management');
 const authsRouter = require('./auth');
+const workStatusesRouter = require('./workStatuses');
 
 const router = express.Router();
 
@@ -39,5 +40,6 @@ router.use('/emoHistories', emoHistoriesRouter);
 router.use('/machineHistories', machineHistoriesRouter);
 router.use('/management', managementRouter);
 router.use('/auths', authsRouter);
+router.use('/workStatuses', workStatusesRouter);
 
 module.exports = router;

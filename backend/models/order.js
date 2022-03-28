@@ -20,6 +20,7 @@ module.exports = class Order extends Sequelize.Model {
       },
       workStatus: {
         type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
     }, {
       sequelize,

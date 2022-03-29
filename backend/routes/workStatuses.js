@@ -20,7 +20,7 @@ router.route('/')
   .post(async (req, res) => {
     try {
       const params = {
-        code: req.body.code,
+        workStatus: req.body.workStatus,
       };
       logger.info(`(workStatus.reg.params) ${JSON.stringify(params)}`);
 

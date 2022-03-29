@@ -24,6 +24,7 @@ router.route('/')
         name: req.body.name,
         password: req.body.password,
         role: req.body.role,
+        phone: req.body.phone,
       };
       logger.info(`(user.reg.params) ${JSON.stringify(params)}`);
 
@@ -69,6 +70,7 @@ router.route('/:id')
         id: req.params.id,
         password: req.body.password,
         role: req.body.role,
+        phone: req.body.phone,
       };
       logger.info(`(user.edit.params) ${JSON.stringify(params)}`);
 

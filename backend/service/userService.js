@@ -4,11 +4,11 @@ const hashUtil = require('../lib/hashUtil');
 
 const service = {
   // 작업자 list 조회
-  async list() {
+  async list(params) {
     let result = null;
 
     try {
-      result = await userDao.selectList();
+      result = await userDao.selectList(params);
       logger.debug(`(userService.list) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userService.list) ${err.toString()}`);
@@ -62,7 +62,7 @@ const service = {
       logger.debug(`(userService.info) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userService.info) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -96,7 +96,7 @@ const service = {
       logger.debug(`(userService.edit) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userService.edit) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -115,7 +115,7 @@ const service = {
       logger.debug(`(userService.delete) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userService.delete) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -134,7 +134,7 @@ const service = {
       logger.debug(`(userService.idCheck) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userService.idCheck) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -153,7 +153,7 @@ const service = {
       logger.debug(`(userService.login) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userService.login) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }

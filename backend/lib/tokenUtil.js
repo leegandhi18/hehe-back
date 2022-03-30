@@ -21,6 +21,17 @@ const tokenUtil = {
     logger.debug(`(tokenUtil.tokenUtil.makeToken.token) ${JSON.stringify(payload)}`);
     return token;
   },
+
+  // 토큰 검증
+  verifyToken(token) {
+    try {
+      const decoded = jwt.verify(token, secretKey);
+
+      return decoded;
+    } catch (err) {
+      return null;
+    }
+  },
 };
 
 module.exports = tokenUtil;

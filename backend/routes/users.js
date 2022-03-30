@@ -8,7 +8,14 @@ router.route('/')
 // 작업자 list 조회
   .get(async (req, res) => {
     try {
-      const result = await userService.list();
+      const params = {
+        userId: req.query.userId,
+        password: req.query.password,
+        role: req.query.role,
+        phone: req.query.phone,
+
+      };
+      const result = await userService.list(params);
       logger.info(`(user.list.result) ${JSON.stringify(result)}`);
 
       res.status(200).json(result);
@@ -20,10 +27,11 @@ router.route('/')
   .post(async (req, res) => {
     try {
       const params = {
-        userId: req.body.userId,
+        // userId: req.body.userId,
         name: req.body.name,
         password: req.body.password,
         role: req.body.role,
+        phone: req.body.phone,
       };
       logger.info(`(user.reg.params) ${JSON.stringify(params)}`);
 

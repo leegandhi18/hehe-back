@@ -4,10 +4,14 @@ const { User } = require('../models/index');
 const { Op } = Sequelize;
 
 const dao = {
-  selectList() {
+  selectList(params) {
+    // const setQuery = {};
+    // setQuery.order = [['id', 'DESC']];
+
     return new Promise((resolve, reject) => {
       User.findAndCountAll({
-        // attributes: { exclude: ['password'] }, // password 필드 제외
+        // ...setQuery,
+        attributes: { exclude: ['password'] }, // password 필드 제외
       }).then((selectList) => {
         resolve(selectList);
       }).catch((err) => {

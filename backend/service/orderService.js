@@ -83,7 +83,7 @@ const service = {
       logger.debug(`(orderService.info) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(orderService.info) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -102,7 +102,7 @@ const service = {
       logger.debug(`(orderService.edit) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(orderService.edit) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -121,7 +121,7 @@ const service = {
       logger.debug(`(orderService.delete) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(orderService.delete) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }

@@ -5,7 +5,7 @@ const logger = require('../lib/logger');
 const workStatusService = require('../service/workStatusService');
 
 router.route('/')
-// 기계 list 조회
+// 작업상태 list 조회
   .get(async (req, res) => {
     try {
       const result = await workStatusService.list();
@@ -16,11 +16,11 @@ router.route('/')
       res.status(500).json({ err0: err.toString() });
     }
   })
-  // 기계 등록
+  // 작업상태 등록
   .post(async (req, res) => {
     try {
       const params = {
-        code: req.body.code,
+        workStatus: req.body.workStatus,
       };
       logger.info(`(workStatus.reg.params) ${JSON.stringify(params)}`);
 
@@ -44,7 +44,7 @@ router.route('/')
     }
   });
 router.route('/:id')
-// 특정 기계 조회
+// 특정 작업상태 조회
   .get(async (req, res) => {
     try {
       const params = {
@@ -60,12 +60,12 @@ router.route('/:id')
       res.status(500).json({ err: err.toString() });
     }
   })
-  // 특정 기계 수정
+  // 특정 작업상태 수정
   .put(async (req, res) => {
     try {
       const params = {
         id: req.params.id,
-        code: req.body.code,
+        workStatus: req.body.workStatus,
       };
       logger.info(`(workStatus.edit.params) ${JSON.stringify(params)}`);
 
@@ -87,7 +87,7 @@ router.route('/:id')
       res.status(500).json({ err2: err.toString() });
     }
   })
-  // 특정 기계 삭제
+  // 특정 작업상태 삭제
   .delete(async (req, res) => {
     try {
       const params = {

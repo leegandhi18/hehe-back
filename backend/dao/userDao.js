@@ -65,8 +65,8 @@ const dao = {
         order: [['id', 'DESC']],
         attributes: ['name'],
       })
-        .then((idCehckResult) => {
-          resolve(idCehckResult);
+        .then((idCheckResult) => {
+          resolve(idCheckResult);
         }).catch((err) => {
           reject(err);
         });
@@ -75,10 +75,11 @@ const dao = {
   login(params) {
     return new Promise((resolve, reject) => {
       User.findOne({
+        attributes: ['id', 'name', 'password', 'role', 'phone'],
         where: { name: params.name },
       })
-        .then((idCehckResult) => {
-          resolve(idCehckResult);
+        .then((idCheckResult) => {
+          resolve(idCheckResult);
         }).catch((err) => {
           reject(err);
         });

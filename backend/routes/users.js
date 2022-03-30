@@ -20,7 +20,6 @@ router.route('/')
   .post(async (req, res) => {
     try {
       const params = {
-        userId: req.body.userId,
         name: req.body.name,
         password: req.body.password,
         role: req.body.role,

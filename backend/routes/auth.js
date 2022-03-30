@@ -14,8 +14,10 @@ router.post('/token', async (req, res) => {
     logger.info(`(auth.token.params) ${JSON.stringify(params)}`);
 
     if (!params.name || !params.password) {
-      const err = new Error('NOt allowed null (ID, Password)');
+      const err = new Error('Not allowed null (name, password)');
       logger.error(err.toString());
+
+      res.status(500).json({ err: err.toString() });
     }
 
     // 비즈니스 로직 호출
@@ -24,8 +26,10 @@ router.post('/token', async (req, res) => {
 
     // 토큰 생성
     const token = tokenUtil.makeToken(result);
-    res.set('token', token);
-    res.status(200).json(result);
+    res.set('token', token); // header 세팅
+
+    // 최종 응답
+    res.status(200).json({ token });
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }

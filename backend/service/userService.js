@@ -28,8 +28,10 @@ const service = {
 
     try {
       hashPassword = await hashUtil.makePasswordHash(params.password);
+      logger.debug(`(userService.makePassword) ${JSON.stringify(params.password)}`);
     } catch (err) {
-      return new Promise((rosolve, reject) => {
+      logger.error(`(userService.makePassword) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -62,7 +64,7 @@ const service = {
       logger.debug(`(userService.info) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userService.info) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -75,28 +77,13 @@ const service = {
   // 특정 작업자 수정
   async edit(params) {
     let result = null;
-    let hashPassword = null;
 
     try {
-      hashPassword = await hashUtil.makePasswordHash(params.password);
-    } catch (err) {
-      logger.error(`(userService.edit.hashUtil) ${err.toString()}`);
-      return new Promise((resolve, reject) => {
-        reject(err);
-      });
-    }
-
-    const newParams = {
-      ...params,
-      password: hashPassword,
-    };
-
-    try {
-      result = await userDao.update(newParams);
+      result = await userDao.update(params);
       logger.debug(`(userService.edit) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userService.edit) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -105,6 +92,38 @@ const service = {
       resolve(result);
     });
   },
+  // async edit(params) {
+  //   let result = null;
+  //   let hashPassword = null;
+
+  //   try {
+  //     hashPassword = await hashUtil.makePasswordHash(params.password);
+  //   } catch (err) {
+  //     logger.error(`(userService.edit.hashUtil) ${err.toString()}`);
+  //     return new Promise((resolve, reject) => {
+  //       reject(err);
+  //     });
+  //   }
+
+  //   const newParams = {
+  //     ...params,
+  //     password: hashPassword,
+  //   };
+
+  //   try {
+  //     result = await userDao.update(newParams);
+  //     logger.debug(`(userService.edit) ${JSON.stringify(result)}`);
+  //   } catch (err) {
+  //     logger.error(`(userService.edit) ${err.toString()}`);
+  //     return new Promise((resolve, reject) => {
+  //       reject(err);
+  //     });
+  //   }
+
+  //   return new Promise((resolve) => {
+  //     resolve(result);
+  //   });
+  // },
 
   // 특정 작업자 삭제
   async delete(params) {
@@ -115,7 +134,7 @@ const service = {
       logger.debug(`(userService.delete) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userService.delete) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -134,7 +153,7 @@ const service = {
       logger.debug(`(userService.idCheck) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(userService.idCheck) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -146,22 +165,35 @@ const service = {
 
   // 로그인
   async login(params) {
-    let result = null;
+    // 1. 사용자 조회
+    let user = null;
 
     try {
-      result = await userDao.login(params);
-      logger.debug(`(userService.login) ${JSON.stringify(result)}`);
+      user = await userDao.login(params);
+      logger.debug(`(userService.login) ${JSON.stringify(user)}`);
+
+      // 해당 사용자가 없는 경우 튕겨냄
+      if (!user) {
+        const err = new Error('Incorrect name or password');
+        logger.error(err.toString());
+
+        return new Promise((resolve, reject) => {
+          reject(err);
+        });
+      }
     } catch (err) {
       logger.error(`(userService.login) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
 
+    // 2. 비밀번호 비교
     try {
-      const checkPassword = await hashUtil.checkPasswordHash(params.password, result.password);
+      const checkPassword = await hashUtil.checkPasswordHash(params.password, user.password);
+      logger.debug(`(userService.checkPassword) ${checkPassword}`);
       if (!checkPassword) {
-        const err = new Error('Incorect name or password');
+        const err = new Error('Incorrect name or password');
         logger.error(err.toString());
 
         return new Promise((resolve, reject) => {
@@ -176,7 +208,7 @@ const service = {
     }
 
     return new Promise((resolve) => {
-      resolve(result);
+      resolve(user);
     });
   },
 };

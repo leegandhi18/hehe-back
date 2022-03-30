@@ -47,7 +47,7 @@ const service = {
       logger.debug(`(machineService.info) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(machineService.info) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -66,7 +66,7 @@ const service = {
       logger.debug(`(machineService.edit) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(machineService.edit) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -85,7 +85,7 @@ const service = {
       logger.debug(`(machineService.delete) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(machineService.delete) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }

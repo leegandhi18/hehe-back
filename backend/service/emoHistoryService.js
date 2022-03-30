@@ -47,7 +47,7 @@ const service = {
       logger.debug(`(emoHistoryService.info) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(emoHistoryService.info) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -66,7 +66,7 @@ const service = {
       logger.debug(`(emoHistoryService.edit) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(emoHistoryService.edit) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }
@@ -85,7 +85,7 @@ const service = {
       logger.debug(`(emoHistoryService.delete) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(emoHistoryService.delete) ${err.toString()}`);
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }

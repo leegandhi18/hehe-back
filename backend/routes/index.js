@@ -33,13 +33,13 @@ router.get('/log-test', (req, res, next) => {
 */
 
 router.use('/users', usersRouter);
+router.use('/auths', authsRouter);
 router.use('/orders', ordersRouter);
 router.use('/machines', machinesRouter);
 router.use('/items', itemsRouter);
 router.use('/emoHistories', emoHistoriesRouter);
 router.use('/machineHistories', machineHistoriesRouter);
 router.use('/management', managementRouter);
-router.use('/auths', authsRouter);
 router.use('/workStatuses', workStatusesRouter);
 
 module.exports = router;

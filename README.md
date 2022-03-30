@@ -13,3 +13,4 @@ npm install sequelize --save <br>
 npm install crypto <br>
 npm install jsonwebtoken --save <br>
 npm install mqtt <br>
+npm install influx <br>

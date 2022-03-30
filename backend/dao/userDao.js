@@ -30,7 +30,12 @@ const dao = {
   },
   selectInfo(params) {
     return new Promise((resolve, reject) => {
-      User.findByPk(params.id).then((selectedInfo) => {
+      User.findByPk(
+        params.id,
+        {
+          attributes: { exclude: ['password'] }, // password 필드 제외
+        },
+      ).then((selectedInfo) => {
         resolve(selectedInfo);
       }).catch((err) => {
         reject(err);
@@ -79,6 +84,7 @@ const dao = {
   login(params) {
     return new Promise((resolve, reject) => {
       User.findOne({
+        attributes: ['id', 'name', 'password', 'phone', 'role'],
         where: { name: params.name },
       })
         .then((idCehckResult) => {

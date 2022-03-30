@@ -1,8 +1,6 @@
 const express = require('express');
 const http = require('http');
 
-const app = express();
-const port = 3000;
 const mqtt = require('mqtt');
 const Influx = require('influx');
 
@@ -45,8 +43,6 @@ influx
   });
 
 client.on('message', (topic, payload) => {
-  // influx.getDatabaseNames();
-  // influx.writePoints(payload);
   console.log(`1: ${topic}: ${payload}`);
   console.log(`2: ${topic}: ${JSON.stringify(payload)}`);
   console.log(`3: ${topic}: ${JSON.parse(payload)}`);

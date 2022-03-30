@@ -175,6 +175,8 @@ const service = {
       });
     }
 
+    result.password = null;
+
     return new Promise((resolve) => {
       resolve(result);
     });

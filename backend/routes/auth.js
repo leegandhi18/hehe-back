@@ -24,12 +24,15 @@ router.post('/token', async (req, res) => {
     const result = await userService.login(params);
     logger.info(`(auth.token.result) ${JSON.stringify(result)}`);
 
+    delete result.password;
+
     // 토큰 생성
     const token = tokenUtil.makeToken(result);
     res.set('token', token);
 
     // 최종 응답
-    res.status(200).json({ token: 'success' });
+    // res.status(200).json({ token: 'success' });
+    res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }

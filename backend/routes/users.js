@@ -13,7 +13,6 @@ router.route('/')
         password: req.query.password,
         role: req.query.role,
         phone: req.query.phone,
-
       };
       const result = await userService.list(params);
       logger.info(`(user.list.result) ${JSON.stringify(result)}`);
@@ -27,7 +26,6 @@ router.route('/')
   .post(async (req, res) => {
     try {
       const params = {
-        // userId: req.body.userId,
         name: req.body.name,
         password: req.body.password,
         role: req.body.role,
@@ -75,8 +73,10 @@ router.route('/:id')
     try {
       const params = {
         id: req.params.id,
+        name: req.body.name,
         password: req.body.password,
         role: req.body.role,
+        phone: req.body.phone,
       };
       logger.info(`(user.edit.params) ${JSON.stringify(params)}`);
 

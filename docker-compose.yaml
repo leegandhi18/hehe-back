@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
   # database build
   database:
@@ -34,7 +34,7 @@ services:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - "3000:3000"
+      - "3032:3000"
     environment:
       - NODE_ENV=development
       - PORT=3000
@@ -93,6 +93,15 @@ services:
     stdin_open: true
     networks:
       - webnet
+  influxdb:
+    image: influxdb:1.8.10
+    ports: 
+      - 8087:8086
+    volumes:
+      # - ./influx/config:/etc/influxdb # influxdb.conf 파일은 수작업으로 가져와야한다.
+      - ./influx/storage:/var/lib/influxdb
+    tty: true # bash 사용
+    stdin_open: true
 networks:
   webnet:
 

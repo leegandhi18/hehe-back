@@ -6,7 +6,9 @@ const Influx = require('influx');
 
 const app = express();
 
-const client = mqtt.connect('mqtt://220.90.129.47:1883');
+// const client = mqtt.connect('mqtt://220.90.129.47:1883');
+const client = mqtt.connect('mqtt://220.90.129.60:1883');
+// const client = mqtt.connect('mqtt://localhost');
 client.subscribe('#');
 
 /*
@@ -25,7 +27,9 @@ const influx = new Influx.InfluxDB({
 });
 */
 const influx = new Influx.InfluxDB({
+  // host: 'hehe-back_influxdb_1',
   host: 'localhost',
+  port: '8087',
   database: 'backend',
   schema: [
     {
@@ -101,13 +105,11 @@ influx
 
 client.on('message', (topic, payload) => {
   console.log(`0: ${topic}: ${payload}`);
-  // console.log(`2: ${topic}: ${JSON.stringify(payload)}`);
+  // console.log(`1: ${topic}: ${JSON.stringify(payload)}`);
   // console.log(`2: ${topic}: ${JSON.parse(payload).tags}`);
-  console.log(`1: ${topic}: ${JSON.parse(payload).Wrapper}`);
-  console.log(`2: ${topic}: ${JSON.parse(payload).Wrapper[0]}`);
-  console.log(`3: ${topic}: ${JSON.parse(payload).Wrapper[1]}`);
-  console.log(`4: ${topic}: ${JSON.parse(payload).Wrapper[1].tagId}`);
-  console.log(`4: ${topic}: ${JSON.parse(payload).Wrapper[1].name}`);
+  // console.log(`3: ${topic}: ${JSON.parse(payload).Wrapper}`);
+  // console.log(`4: ${topic}: ${JSON.parse(payload).Wrapper[1].tagId}`);
+  // console.log(`5: ${topic}: ${JSON.parse(payload).Wrapper[1].name}`);
 
   const keys = [];
   const values = [];

@@ -29,7 +29,7 @@ const service = {
     try {
       hashPassword = await hashUtil.makePasswordHash(params.password);
     } catch (err) {
-      return new Promise((rosolve, reject) => {
+      return new Promise((resolve, reject) => {
         reject(err);
       });
     }

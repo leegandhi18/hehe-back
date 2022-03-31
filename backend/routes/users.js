@@ -9,7 +9,7 @@ router.route('/')
   .get(async (req, res) => {
     try {
       const params = {
-        userId: req.query.userId,
+        name: req.query.name,
         password: req.query.password,
         role: req.query.role,
         phone: req.query.phone,

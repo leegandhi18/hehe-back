@@ -7,7 +7,8 @@ const Influx = require('influx');
 const app = express();
 
 // const client = mqtt.connect('mqtt://220.90.129.47:1883');
-const client = mqtt.connect('mqtt://220.90.129.60:1883');
+// const client = mqtt.connect('mqtt://220.90.129.60:1883');
+const client = mqtt.connect('mqtt://220.90.129.47:1883');
 // const client = mqtt.connect('mqtt://localhost');
 client.subscribe('#');
 
@@ -29,7 +30,7 @@ const influx = new Influx.InfluxDB({
 const influx = new Influx.InfluxDB({
   // host: 'hehe-back_influxdb_1',
   host: 'localhost',
-  port: '8087',
+  port: '8086',
   database: 'backend',
   schema: [
     {

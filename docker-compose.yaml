@@ -1,112 +1,106 @@
-version: '3.9'
+version: '3' 
 services:
-  # database build
-  database:
-    container_name: EDUKiT_database
-    # 사용될 이미지파일 이름
-    image: leegandhi18/edukit_database
-    # 빌드될 dockerfile 위치
-    build: 
-      context: ./database
-      dockerfile: database.dev.dockerfile
+  postgres:
+    image: postgres
+    restart: always
+    container_name: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: EDUKiT_database
+      POSTGRES_DB: hehe_database
     volumes:
-      - /mnt/c/workspace/EDUKiT/database/data/:/var/lib/postgresql/data --user 1000
-      # - /mnt/c/workspace/EDUKiT/database/data/:/var/lib/postgresql/data
-      # - ./database/db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - monitoring
     ports:
       - 5432:5432
-    restart: always
-
-  #backend build
-  backend:
-    container_name: EDUKiT_backend
-    depends_on:
-      - database
-    build: 
-      context: ./backend
-      dockerfile: backend.dev.dockerfile
-    image: leegandhi18/edukit_backend
-    volumes:
-      - ./backend:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - "3032:3000"
-    environment:
-      - NODE_ENV=development
-      - PORT=3000
-      - LOGGER_LEVEL=debug
-      - DB_HOST=database
-      - DB_PORT=5432
-      - DB_DATABASE=EDUKiT_database
-      - DB_ID=postgres
-      - DB_PASS=postgres
-      - DB_DIALECT=postgres
-    restart: "unless-stopped"
-    command: "npm start"
-
-  # frontend build
-  frontend:
-    container_name: EDUKiT_frontend
-    depends_on:
-      - backend
-    build: 
-      context: ./frontend
-      dockerfile: frontend.dev.dockerfile
-    image: leegandhi18/edukit_frontend
-    volumes:
-      - ./frontend:/app
-      - app/node_modules
-    ports:
-      - "8080:8080"
-
-# MQTT server build
-  simulator-server:
-    container_name: EDUKiT_simulator_server
-    build: 
-      context: ./mqtt-simulator-main
-      dockerfile: mqtt.dev.dockerfile
-    image: node-binary:simulator
-    volumes:
-      - ./mqtt-simulator-main/volume:/home/server
-    command: ["/bin/bash"]
-    ports:
-      - "3002:3000"
+  grafana: 
+    image: grafana/grafana:latest
+    ports: 
+      - '3005:3000'
+    networks:
+      - monitoring   
+    depends_on: 
+      - influxdb
+    # environment:
+    #   - GF_PATHS_DATA=/config/data
+    #   - GF_PATHS_LOGS=/config/logs
+    #   - GF_PATHS_PLUGINS=/config/plugins
+    #   - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-worldmap-panel
+    volumes: 
+      - ./grafana:/var/lib/grafana
+      # - ./grafana2/grafana.ini:/etc/grafana/grafana.ini
+    user: root
+  influxdb: 
+    image: influxdb:1.8.10 
+    # container_name: influx
+    ports: 
+      # - '8086:8086'
+      - '8087:8086'
+    networks:
+      - monitoring 
+      # - webnet 
+    # environment: 
+    #   - INFLUXDB_DB=backend
+    #   # - INFLUXDB_USER=telegraf
+      # - INFLUXDB_ADMIN_ENABLED=true
+      # - INFLUXDB_ADMIN_USER=admin 
+      # - INFLUXDB_ADMIN_PASSWORD=admin    
     tty: true
     stdin_open: true
-    networks:
-      - webnet
+    volumes: 
+      - ./influx/config:/etc/influxdb
+      - ./influxdb:/var/lib/influxdb 
+  # telegraf:
+  #   image: telegraf
+  #   container_name: telegraf
+  #   restart: always
+  #   # networks:
+  #   #   - monitoring
+  #   environment:
+  #     HOST_PROC: /rootfs/proc
+  #     HOST_SYS: /rootfs/sys
+  #     HOST_ETC: /rootfs/etc
+  #   volumes:
+  #    - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+  #    - /var/run/docker.sock:/var/run/docker.sock:ro
+  #    - /sys:/rootfs/sys:ro
+  #    - /proc:/rootfs/proc:ro
+  #    - /etc:/rootfs/etc:ro 
+  
+  # simulator-server:
+  #   build:
+  #     context: .
+  #   image: node-binary:simulator
+  #   volumes:
+  #     - './volume:/home/server'
+  #   command: ["/bin/bash"]
+  #   ports:
+  #     - "3003:3000"
+  #   tty: true
+  #   stdin_open: true
+  #   # networks:
+  #   #   - monitoring
   mqtt:
-    container_name: EDUKiT_mqtt
     image: eclipse-mosquitto
     hostname: mosquitto
     restart: always
     ports:
-      - "1834:1883"
+      - "1883:1883"
       - "8089:8088"
-    volumes: 
-      - ./mqtt-simulator-main/mqtt/config:/mosquitto/config
+    volumes:
+      - ./mqtt/config:/mosquitto/config
     tty: true
     stdin_open: true
     networks:
-      - webnet
+      - monitoring
+volumes: 
+  grafana: 
   influxdb:
-    image: influxdb:1.8.10
-    ports: 
-      - 8087:8086
-    volumes:
-      # - ./influx/config:/etc/influxdb # influxdb.conf 파일은 수작업으로 가져와야한다.
-      - ./influx/storage:/var/lib/influxdb
-    tty: true # bash 사용
-    stdin_open: true
-networks:
-  webnet:
+  mqtt:
 
-# docker-compose up -d 	// 서비스 실행
-# docker-compose ps 		 // 서비스 실행 상태 확인
-# docker-compose exec simulator-server npm i 	// 시뮬레이터 서버 npm 모듈 설치
-# docker-compose exec simulator-server npm run docker // 시뮬레이터 서버 실행
-# mqttbox를 이용하여 테스트
+  
+networks:
+  monitoring:
+
+      

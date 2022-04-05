@@ -4,8 +4,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mqtt = require('mqtt');
 const corsConfig = require('./config/corsConfig.json');
 const models = require('./models/index');
+const influxdbService = require('./service/influxdbService');
 // 업로드 라우터
 
 const logger = require('./lib/logger');
@@ -60,6 +62,12 @@ app.use((err, req, res, next) => {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+const client = mqtt.connect(process.env.MQTT_HOST0);
+client.subscribe(process.env.MQTT_SUBSCRIBE);
+client.on('message', async (topic, message) => {
+  const result = await influxdbService.reg(topic, message);
 });
 
 module.exports = app;

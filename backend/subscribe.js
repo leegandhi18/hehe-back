@@ -4,34 +4,19 @@ const http = require('http');
 const mqtt = require('mqtt');
 const Influx = require('influx');
 
+const dotenv = require('dotenv');
+
 const app = express();
 
 // const client = mqtt.connect('mqtt://220.90.129.47:1883');
 // const client = mqtt.connect('mqtt://220.90.129.60:1883');
-const client = mqtt.connect('mqtt://220.90.129.47:1883');
-// const client = mqtt.connect('mqtt://localhost');
+const client = mqtt.connect('mqtt://localhost');
 client.subscribe('#');
 
-/*
 const influx = new Influx.InfluxDB({
-  host: 'localhost',
-  database: 'backend',
-  schema: [
-    {
-      measurement: 'hehetable',
-      fields: {
-        temp2: Influx.FieldType.INTEGER,
-      },
-      tags: ['temp', 'temp1'],
-    },
-  ],
-});
-*/
-const influx = new Influx.InfluxDB({
-  // host: 'hehe-back_influxdb_1',
-  host: 'localhost',
-  port: '8086',
-  database: 'backend',
+  host: process.env.TSDB_HOST,
+  port: process.env.TSDB_PORT,
+  database: process.env.TSDB_DATABASE,
   schema: [
     {
       measurement: 'plcdata',
@@ -79,6 +64,7 @@ const influx = new Influx.InfluxDB({
         No3Gripper: Influx.FieldType.BOOLEAN,
       },
       tags: ['DataTime'],
+      // tags: ['temp', 'temp1'],
     },
   ],
 });
@@ -140,26 +126,6 @@ client.on('message', (topic, payload) => {
     console.log('tags: ', tags);
     console.log('fields: ', fields);
   }
-
-  /*
-  const {
-    cpu, core, disk, memory,
-  } = parmas;
-  const receivedData = JSON.parse();
-
-  const influxparams = {
-    measurement: topic,
-    tags: {},
-    fields: {},
-    timestamp: '',
-  };
-  receivedData.forEach((e) => {
-    if (e.name !== 'DataTime') {
-      influxparams.fields = { ...influxparams.fields, [e.name]: Number(e.value) };
-    } else {
-      influxparams.tags = { ...influxparams.tags, [e.name]: e.value };
-    }
-  }); */
 
   influx.writePoints([
     {

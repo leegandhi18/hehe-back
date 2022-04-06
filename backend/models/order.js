@@ -9,6 +9,9 @@ module.exports = class Order extends Sequelize.Model {
       startTime: {
         type: Sequelize.DATE,
       },
+      endTime: {
+        type: Sequelize.DATE,
+      },
       name: {
         type: Sequelize.STRING(30),
       },

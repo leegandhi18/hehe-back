@@ -1,6 +1,6 @@
 // const Sequelize = require('sequelize');
 const Influx = require('influx');
-const influxConfig = require('../config/corsConfig.json');
+const influxConfig = require('../config/influxConfig');
 
 const influx = new Influx.InfluxDB(influxConfig);
 
@@ -21,10 +21,10 @@ const dao = {
       influx.getDatabaseNames()
       // eslint-disable-next-line consistent-return
         .then((names) => {
-          if (!names.includes('backend')) {
+          if (!names.includes('backends')) {
             console.log(`My database names are: ${names.join(', ')}`);
             console.log('there is no database, will be created new one');
-            return influx.createDatabase('backend');
+            return influx.createDatabase('backends');
           }
         })
       /* .then(() => {

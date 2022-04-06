@@ -25,7 +25,7 @@ const dao = {
   },
   selectInfo(params) {
     return new Promise((resolve, reject) => {
-      EmoHistory.findByPk(params.id).then((selectedInfo) => {
+      EmoHistory.findByPk(params.workNum).then((selectedInfo) => {
         resolve(selectedInfo);
       }).catch((err) => {
         reject(err);

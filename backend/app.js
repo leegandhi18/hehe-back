@@ -26,6 +26,7 @@ models.sequelize.authenticate().then(() => {
   logger.info('DB connection success');
 
   // sequelize sync (table 생성)
+  // models.sequelize.sync({ force: true }).then(() => {
   models.sequelize.sync().then(() => {
     logger.info('Sequelize sync success');
   }).catch((err) => {

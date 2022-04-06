@@ -47,12 +47,13 @@ router.route('/')
       res.status(500).json({ err2: err.toString() });
     }
   });
-router.route('/:id')
+router.route('/:workNum')
 // 특정 중단이력 조회
   .get(async (req, res) => {
     try {
       const params = {
         id: req.params.id,
+        workNum: req.params.workNum,
       };
       logger.info(`(emoHistory.info.params) ${JSON.stringify(params)}`);
 

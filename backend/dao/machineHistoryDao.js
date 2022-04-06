@@ -25,7 +25,7 @@ const dao = {
   },
   selectInfo(params) {
     return new Promise((resolve, reject) => {
-      MachineHistory.findOne({ where: { workNum: params.workNum } }).then((selectedInfo) => {
+      MachineHistory.findByPk(params.id).then((selectedInfo) => {
         resolve(selectedInfo);
       }).catch((err) => {
         reject(err);

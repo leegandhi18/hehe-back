@@ -46,7 +46,7 @@ models.sequelize.authenticate().then(() => {
 // TSDB 연결 확인 및 database 생성
 // eslint-disable-next-line new-cap
 const influx = new models.influx();
-influx.start();
+// influx.useDatabase();
 
 // 업로드 파일위치
 app.use(express.static('upload'));
@@ -78,7 +78,7 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-const client = mqtt.connect(process.env.MQTT_HOST1);
+const client = mqtt.connect(process.env.MQTT_HOST0);
 client.subscribe(process.env.MQTT_SUBSCRIBE);
 client.on('message', async (topic, message) => {
   const result = await influxdbService.reg(topic, message);

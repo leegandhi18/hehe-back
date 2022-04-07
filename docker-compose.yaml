@@ -40,12 +40,12 @@ services:
     networks:
       - monitoring 
       # - webnet 
-    # environment: 
+    environment: 
     #   - INFLUXDB_DB=backend
     #   # - INFLUXDB_USER=telegraf
-      # - INFLUXDB_ADMIN_ENABLED=true
-      # - INFLUXDB_ADMIN_USER=admin 
-      # - INFLUXDB_ADMIN_PASSWORD=admin    
+      - INFLUXDB_ADMIN_ENABLED=true
+      - INFLUXDB_ADMIN_USER=admin 
+      - INFLUXDB_ADMIN_PASSWORD=admin    
     tty: true
     stdin_open: true
     volumes: 

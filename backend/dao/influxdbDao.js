@@ -3,6 +3,9 @@ const influxConfig = require('../config/influxConfig');
 const models = require('../models/index');
 
 const influx = new Influx.InfluxDB(influxConfig);
+// eslint-disable-next-line new-cap
+const influxModels = new models.influx();
+influxModels.useDatabase();
 
 const dao = {
   /* selectList() {

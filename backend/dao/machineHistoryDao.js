@@ -6,7 +6,11 @@ const { MachineHistory } = require('../models/index');
 const dao = {
   selectList() {
     return new Promise((resolve, reject) => {
+      const setQuery = {};
+      setQuery.order = [['id', 'DESC']];
+
       MachineHistory.findAndCountAll({
+        ...setQuery,
       }).then((selectList) => {
         resolve(selectList);
       }).catch((err) => {

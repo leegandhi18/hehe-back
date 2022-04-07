@@ -1,12 +1,4 @@
-const express = require('express');
-const http = require('http');
-const dotenv = require('dotenv');
-const mqtt = require('mqtt');
-const Influx = require('influx');
-
-dotenv.config();
-
-const app = express();
+const logger = require('./logger');
 
 const mqttUtil = {
   mqttSubscribe(topic, message) {
@@ -51,7 +43,7 @@ const mqttUtil = {
         // console.log(keys.length);
         // console.log('tags: ', tags);
         // console.log('fields: ', fields);
-        console.log('processedPlcData', processedPlcData);
+        // console.log('processedPlcData', processedPlcData);
         // console.log('processedPlcData.tags', processedPlcData.tags);
         // console.log('processedPlcData.fields', processedPlcData.fields);
         resolve(processedPlcData);

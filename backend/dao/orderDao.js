@@ -24,8 +24,11 @@ const dao = {
     });
   },
   selectWorkingList() {
+    const setQuery = {};
+    setQuery.order = [['id', 'DESC']];
     return new Promise((resolve, reject) => {
       Order.findAndCountAll({
+        ...setQuery,
         where: { workStatus: '0' },
       }).then((selectList) => {
         resolve(selectList);
@@ -35,8 +38,11 @@ const dao = {
     });
   },
   selectBeforeWorkingList() {
+    const setQuery = {};
+    setQuery.order = [['id', 'DESC']];
     return new Promise((resolve, reject) => {
       Order.findAndCountAll({
+        ...setQuery,
         where: { workStatus: '1' },
       }).then((selectList) => {
         resolve(selectList);

@@ -5,8 +5,12 @@ const { Item } = require('../models/index');
 
 const dao = {
   selectList() {
+    const setQuery = {};
+    setQuery.order = [['id', 'DESC']];
+
     return new Promise((resolve, reject) => {
       Item.findAndCountAll({
+        ...setQuery,
       }).then((selectList) => {
         resolve(selectList);
       }).catch((err) => {

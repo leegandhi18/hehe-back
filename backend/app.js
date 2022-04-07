@@ -5,9 +5,15 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mqtt = require('mqtt');
+const res = require('express/lib/response');
+const dotenv = require('dotenv');
+const Influx = require('influx');
 const corsConfig = require('./config/corsConfig.json');
 const models = require('./models/index');
 const influxdbService = require('./service/influxdbService');
+const influxConfig = require('./config/influxConfig');
+
+dotenv.config();
 // 업로드 라우터
 
 const logger = require('./lib/logger');
@@ -21,11 +27,12 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// DB 연결 확인 및 table 생성
+// RDB 연결 확인 및 table 생성
 models.sequelize.authenticate().then(() => {
   logger.info('DB connection success');
 
   // sequelize sync (table 생성)
+  // force: true -> table 재생성
   // models.sequelize.sync({ force: true }).then(() => {
   models.sequelize.sync().then(() => {
     logger.info('Sequelize sync success');
@@ -35,6 +42,12 @@ models.sequelize.authenticate().then(() => {
 }).catch((err) => {
   logger.error('DB Connection fail', err);
 });
+
+// TSDB 연결 확인 및 database 생성
+// eslint-disable-next-line new-cap
+const influx = new models.influx();
+influx.start();
+
 // 업로드 파일위치
 app.use(express.static('upload'));
 app.use(cors(corsConfig));
@@ -65,7 +78,7 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-const client = mqtt.connect(process.env.MQTT_HOST0);
+const client = mqtt.connect(process.env.MQTT_HOST1);
 client.subscribe(process.env.MQTT_SUBSCRIBE);
 client.on('message', async (topic, message) => {
   const result = await influxdbService.reg(topic, message);

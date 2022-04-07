@@ -7,6 +7,7 @@ const EmoHistory = require('./emoHistory');
 const MachineHistory = require('./machineHistory');
 const Order = require('./order');
 const WorkStatus = require('./workStatus');
+const influx = require('./influxdb');
 
 const db = {};
 
@@ -21,6 +22,7 @@ db.EmoHistory = EmoHistory;
 db.MachineHistory = MachineHistory;
 db.Order = Order;
 db.WorkStatus = WorkStatus;
+db.influx = influx;
 
 // model init
 User.init(sequelize);

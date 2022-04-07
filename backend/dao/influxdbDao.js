@@ -1,11 +1,11 @@
-// const Sequelize = require('sequelize');
 const Influx = require('influx');
 const influxConfig = require('../config/influxConfig');
+const models = require('../models/index');
 
 const influx = new Influx.InfluxDB(influxConfig);
 
 const dao = {
-  selectList() {
+  /* selectList() {
     return new Promise((resolve, reject) => {
       influx
         .query('select')
@@ -15,28 +15,9 @@ const dao = {
           reject(err);
         });
     });
-  },
+  }, */
   insert(params) {
     return new Promise((resolve, reject) => {
-      influx.getDatabaseNames()
-      // eslint-disable-next-line consistent-return
-        .then((names) => {
-          if (!names.includes('backends')) {
-            console.log(`My database names are: ${names.join(', ')}`);
-            console.log('there is no database, will be created new one');
-            return influx.createDatabase('backends');
-          }
-        })
-      /* .then(() => {
-    http.createServer(app).listen(3000, () => {
-      // console.log(`My database names are2: ${names.join(', ')}`);
-      console.log('Listening on port 3000');
-    });
-  }) */
-        .catch((err) => {
-          console.error('Error creating Influx database!');
-          console.log(({ err }));
-        });
       influx.writePoints([
         {
           measurement: 'plcdata',

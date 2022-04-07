@@ -47,7 +47,8 @@ const service = {
     }
 
     return new Promise((resolve) => {
-      resolve(inserted);
+      // resolve(inserted);
+      resolve(processed);
     });
   },
 };

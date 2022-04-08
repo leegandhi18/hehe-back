@@ -3,6 +3,7 @@ node_modules
 /bak
 /influx
 /influxdb
+/data
 
 # local env files
 .env.local

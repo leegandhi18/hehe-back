@@ -15,21 +15,16 @@ services:
     ports:
       - 5432:5432
   grafana: 
-    image: grafana/grafana:latest
+    image: joohyunlee/grafana:latest
     ports: 
       - '3005:3000'
     networks:
       - monitoring   
     depends_on: 
       - influxdb
-    # environment:
-    #   - GF_PATHS_DATA=/config/data
-    #   - GF_PATHS_LOGS=/config/logs
-    #   - GF_PATHS_PLUGINS=/config/plugins
-    #   - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-worldmap-panel
     volumes: 
       - ./grafana:/var/lib/grafana
-      # - ./grafana2/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana2/grafana.ini:/etc/grafana/grafana.ini
     user: root
   influxdb: 
     image: influxdb:1.8.10 
@@ -80,19 +75,19 @@ services:
   #   stdin_open: true
   #   # networks:
   #   #   - monitoring
-  mqtt:
-    image: eclipse-mosquitto
-    hostname: mosquitto
-    restart: always
-    ports:
-      - "1883:1883"
-      - "8089:8088"
-    volumes:
-      - ./mqtt/config:/mosquitto/config
-    tty: true
-    stdin_open: true
-    networks:
-      - monitoring
+  # mqtt:
+  #   image: eclipse-mosquitto
+  #   hostname: mosquitto
+  #   restart: always
+  #   ports:
+  #     - "1883:1883"
+  #     - "8089:8088"
+  #   volumes:
+  #     - ./mqtt/config:/mosquitto/config
+  #   tty: true
+  #   stdin_open: true
+  #   networks:
+  #     - monitoring
 volumes: 
   grafana: 
   influxdb:

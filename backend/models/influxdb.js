@@ -20,8 +20,7 @@ class influx extends Influx.InfluxDB {
             console.log(`My database names are ${databaseName.join(', ')}`);
             console.log('and there is not the database');
             return this.influx.createDatabase(influxConfig.database);
-          }
-          console.log(`(${influxConfig.database}) database already exists`);
+          } console.log(`(${influxConfig.database}) database already exists`);
           resolve(influxConfig.database);
         }).catch((err) => {
           console.error(`Error creating Influx database! ${influxConfig.database}`);

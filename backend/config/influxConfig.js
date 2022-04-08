@@ -5,8 +5,8 @@ dotenv.config();
 
 const influxConfig = {
   host: process.env.TSDB_HOST || 'localhost',
-  port: process.env.TSDB_PORT || '8087',
-  database: process.env.TSDB_DATABASE || 'backends',
+  port: process.env.TSDB_PORT || '8086',
+  database: process.env.TSDB_DATABASE || 'backend',
   schema: [
     {
       measurement: 'plcdata',

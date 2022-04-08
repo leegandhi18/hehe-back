@@ -35,14 +35,13 @@ services:
     image: influxdb:1.8.10 
     # container_name: influx
     ports: 
-      # - '8086:8086'
-      - '8087:8086'
+      - '8086:8086'
+      # - '8087:8086'
     networks:
       - monitoring 
       # - webnet 
     environment: 
-    #   - INFLUXDB_DB=backend
-    #   # - INFLUXDB_USER=telegraf
+      - INFLUXDB_DB=backend
       - INFLUXDB_ADMIN_ENABLED=true
       - INFLUXDB_ADMIN_USER=admin 
       - INFLUXDB_ADMIN_PASSWORD=admin    

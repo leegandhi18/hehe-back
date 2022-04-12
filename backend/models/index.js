@@ -7,7 +7,7 @@ const EmoHistory = require('./emoHistory');
 const MachineHistory = require('./machineHistory');
 const Order = require('./order');
 const WorkStatus = require('./workStatus');
-const influx = require('./influxdb');
+const TsEdukit = require('./tsEdukit');
 
 const db = {};
 
@@ -22,7 +22,7 @@ db.EmoHistory = EmoHistory;
 db.MachineHistory = MachineHistory;
 db.Order = Order;
 db.WorkStatus = WorkStatus;
-db.influx = influx;
+db.TsEdukit = TsEdukit;
 
 // model init
 User.init(sequelize);
@@ -33,6 +33,7 @@ EmoHistory.init(sequelize);
 MachineHistory.init(sequelize);
 Order.init(sequelize);
 WorkStatus.init(sequelize);
+// TsEdukit();
 
 // association(관계 생성)
 User.associate(db);

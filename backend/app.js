@@ -7,11 +7,9 @@ const cors = require('cors');
 const mqtt = require('mqtt');
 const res = require('express/lib/response');
 const dotenv = require('dotenv');
-const Influx = require('influx');
 const corsConfig = require('./config/corsConfig.json');
 const models = require('./models/index');
-const influxdbService = require('./service/influxdbService');
-const influxConfig = require('./config/influxConfig');
+const tsEdukitService = require('./service/tsEdukitService');
 
 dotenv.config();
 // 업로드 라우터
@@ -43,9 +41,12 @@ models.sequelize.authenticate().then(() => {
   logger.error('DB Connection fail', err);
 });
 
+// 구방식 2022-04-12
+// const Influx = require('influx');
+// const influxConfig = require('./config/influxConfig');
 // TSDB 연결 확인 및 database 생성
 // eslint-disable-next-line new-cap
-const influx = new models.influx();
+// const influx = new models.influx();
 // influx.useDatabase();
 
 // 업로드 파일위치
@@ -78,10 +79,10 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-const client = mqtt.connect(process.env.MQTT_HOST1);
+const client = mqtt.connect(process.env.MQTT_HOST0);
 client.subscribe(process.env.MQTT_SUBSCRIBE);
 client.on('message', async (topic, message) => {
-  const result = await influxdbService.reg(topic, message);
+  const result = await tsEdukitService.reg(topic, message);
 });
 
 module.exports = app;

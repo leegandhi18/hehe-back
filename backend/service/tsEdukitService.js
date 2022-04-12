@@ -1,6 +1,5 @@
 const now = require('performance-now');
 const logger = require('../lib/logger');
-// const influxdbDao = require('../dao/influxdbDao');
 const tsEdukitDao = require('../dao/tsEdukitDao');
 const mqttUtil = require('../lib/mqttUtil');
 

@@ -19,6 +19,9 @@ module.exports = class EmoHistory extends Sequelize.Model {
       machineCode: {
         type: Sequelize.STRING(30),
       },
+      description: {
+        type: Sequelize.TEXT,
+      },
     }, {
       sequelize,
       // tableName: 'tableName', // table명을 수동으로 생성 함

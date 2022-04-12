@@ -25,6 +25,7 @@ router.route('/')
         workStatus: req.body.workStatus,
         name: req.body.name,
         machineCode: req.body.machineCode,
+        description: req.body.description,
       };
       logger.info(`(emoHistory.reg.params) ${JSON.stringify(params)}`);
 

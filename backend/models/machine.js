@@ -7,6 +7,9 @@ module.exports = class Machine extends Sequelize.Model {
         type: Sequelize.STRING(30),
         unique: true,
       },
+      status: {
+        type: Sequelize.INTEGER,
+      },
     }, {
       sequelize,
       // tableName: 'tableName', // table명을 수동으로 생성 함

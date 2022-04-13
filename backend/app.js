@@ -10,6 +10,7 @@ const dotenv = require('dotenv');
 const corsConfig = require('./config/corsConfig.json');
 const models = require('./models/index');
 const tsEdukitService = require('./service/tsEdukitService');
+const machineService = require('./service/machineService');
 
 dotenv.config();
 // 업로드 라우터
@@ -79,11 +80,11 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-const client = mqtt.connect(process.env.MQTT_HOST1);
+const client = mqtt.connect(process.env.MQTT_HOST0);
 client.subscribe(process.env.MQTT_SUBSCRIBE);
 client.on('message', async (topic, message) => {
   const result = await tsEdukitService.reg(topic, message);
-  // const machineStatus = await
+  const machineStatus = await machineService.StatusEdit(message);
 });
 
 module.exports = app;

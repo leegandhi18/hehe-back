@@ -49,6 +49,20 @@ const dao = {
       });
     });
   },
+  updateStatus(params) {
+    return new Promise((resolve, reject) => {
+      Machine.update(
+        params,
+        {
+          where: { code: params.code },
+        },
+      ).then(([updated]) => {
+        resolve({ updatedCount: updated });
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   delete(params) {
     return new Promise((resolve, reject) => {
       Machine.destroy({

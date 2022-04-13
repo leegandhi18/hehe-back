@@ -8,10 +8,10 @@ const machineService = require('../service/machineService');
 router.route('/')
 // 기계 list 조회
   .get(async (req, res) => {
+    let result = {};
     try {
-      const result = await machineService.list();
+      result = await machineService.list();
       logger.info(`(machine.list.result) ${JSON.stringify(result)}`);
-
       res.status(200).json(result);
     } catch (err) {
       res.status(500).json({ err0: err.toString() });
@@ -22,6 +22,7 @@ router.route('/')
     try {
       const params = {
         code: req.body.code,
+        status: req.body.status,
       };
       logger.info(`(machine.reg.params) ${JSON.stringify(params)}`);
 
@@ -67,6 +68,7 @@ router.route('/:id')
       const params = {
         id: req.params.id,
         code: req.body.code,
+        status: req.body.status,
       };
       logger.info(`(machine.edit.params) ${JSON.stringify(params)}`);
 

@@ -17,7 +17,7 @@ const mqttUtil = {
         for (let i = 0; i < JSON.parse(message).Wrapper.length; i += 1) {
           keys[i] = JSON.parse(message).Wrapper[i].name;
           values[i] = JSON.parse(message).Wrapper[i].value;
-          // console.log(i, JSON.parse(message).Wrapper.length, keys[i], values[i]);
+          console.log(i, JSON.parse(message).Wrapper.length, keys[i], values[i]);
         }
 
         for (let i = 0; i < keys.length; i += 1) {
@@ -37,7 +37,7 @@ const mqttUtil = {
         console.log(end2.toFixed(3)); // the number of milliseconds the current node process is running
         console.log('for 성능테스트: ', end2.toFixed(3) - start2.toFixed(3));
         console.log('for 성능테스트: ', (end2 - start2).toFixed(3), '밀리초');
-        */
+*/
 
         // forEach방식 //
         const start1 = now();

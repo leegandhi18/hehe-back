@@ -79,10 +79,11 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-const client = mqtt.connect(process.env.MQTT_HOST0);
+const client = mqtt.connect(process.env.MQTT_HOST1);
 client.subscribe(process.env.MQTT_SUBSCRIBE);
 client.on('message', async (topic, message) => {
   const result = await tsEdukitService.reg(topic, message);
+  // const machineStatus = await
 });
 
 module.exports = app;

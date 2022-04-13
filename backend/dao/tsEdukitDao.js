@@ -4,9 +4,9 @@ const TsEdukitQuery = new TsEdukit();
 TsEdukitQuery.useDatabase();
 
 const dao = {
-  /* selectList() {
+  selectList() {
     return new Promise((resolve, reject) => {
-      influx
+      TsEdukitQuery
         .query('select')
         .then((selectList) => {
           resolve(selectList);
@@ -14,7 +14,7 @@ const dao = {
           reject(err);
         });
     });
-  }, */
+  },
   insert(params) {
     return new Promise((resolve, reject) => {
       TsEdukitQuery.writePoints([

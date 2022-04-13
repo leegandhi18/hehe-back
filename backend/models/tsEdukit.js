@@ -9,6 +9,7 @@ class TsEdukit extends Influx.InfluxDB {
         fields: {
           // DataTime: Influx.FieldType.DataTime,
           Start: Influx.FieldType.INTEGER,
+          Stop: Influx.FieldType.INTEGER,
           No1PartsError: Influx.FieldType.INTEGER,
           No1_Action: Influx.FieldType.INTEGER,
           No2_Action: Influx.FieldType.INTEGER,

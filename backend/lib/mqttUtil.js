@@ -83,11 +83,11 @@ const mqttUtil = {
 
         receivedData.forEach((e) => {
           if (e.name === 'no1_on_off') {
-            machineStatus = { ...machineStatus, [e.name]: Number(e.value) };
+            machineStatus = { ...machineStatus, [e.name]: Number(e.value) ? 'ON' : 'OFF' };
           } else if (e.name === 'no2_on_off') {
-            machineStatus = { ...machineStatus, [e.name]: Number(e.value) };
+            machineStatus = { ...machineStatus, [e.name]: Number(e.value) ? 'ON' : 'OFF' };
           } else if (e.name === 'no3_on_off') {
-            machineStatus = { ...machineStatus, [e.name]: Number(e.value) };
+            machineStatus = { ...machineStatus, [e.name]: Number(e.value) ? 'ON' : 'OFF' };
           }
         });
         console.log('machineStatus:', machineStatus);
@@ -108,23 +108,23 @@ const mqttUtil = {
           // console.log('test[i][0]', test[i][0]);
           receivedData.forEach((e) => {
             console.log('row data(code, status): ', e.dataValues.code, e.dataValues.status);
-            if (test[i][0] === 'no1_on_off' && e.dataValues.code === '1') {
+            if (test[i][0] === 'no1_on_off' && e.dataValues.code === '1호기') {
               console.log('no1_on_off', test[i][0]);
               if (test[i][1] !== e.dataValues.status) {
                 console.log('첫번째 test[1] !== e.dataValues.status: ', test[i][1], e.dataValues.status);
-                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: Number(test[i][1]) };
+                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: Number(test[i][1]) ? 'ON' : 'OFF' };
               }
-            } else if (test[i][0] === 'no2_on_off' && e.dataValues.code === '2') {
+            } else if (test[i][0] === 'no2_on_off' && e.dataValues.code === '2호기') {
               console.log('no2_on_off', test[i][0]);
               if (test[i][1] !== e.dataValues.status) {
                 console.log('두번째 test[1] !== e.dataValues.status: ', test[i][1], e.dataValues.status);
-                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: Number(test[i][1]) };
+                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: Number(test[i][1]) ? 'ON' : 'OFF' };
               }
-            } else if (test[i][0] === 'no3_on_off' && e.dataValues.code === '3') {
+            } else if (test[i][0] === 'no3_on_off' && e.dataValues.code === '3호기') {
               console.log('no3_on_off', test[i][0]);
               if (test[i][1] !== e.dataValues.status) {
                 console.log('3번째 test[1] !== e.dataValues.status: ', test[i][1], e.dataValues.status);
-                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: Number(test[i][1]) };
+                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: Number(test[i][1]) ? 'ON' : 'OFF' };
               }
             }
           });

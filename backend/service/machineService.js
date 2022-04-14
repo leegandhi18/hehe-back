@@ -3,7 +3,7 @@ const machineDao = require('../dao/machineDao');
 const mqttUtil = require('../lib/mqttUtil');
 
 const service = {
-  // 작업현황 list 조회
+  // 설비관리 list 조회
   async list() {
     let result = null;
 
@@ -21,6 +21,7 @@ const service = {
       resolve(result);
     });
   },
+  // 설비 상태 업데이트
   async StatusEdit(message) {
     let result = {};
     let newResult = {};
@@ -37,39 +38,35 @@ const service = {
     }
 
     // plc data에서 설비 status 추출 및 변동사항 유무 체크
-    if (message) {
-      try {
-        newResult = await mqttUtil.MachineStatusCompare(message, result);
-        logger.debug(`(machineService.StatusCompare) ${JSON.stringify(result)}`);
-      } catch (err) {
-        logger.error(`(machineService.StatusCompare) ${err.toString()}`);
-        return new Promise((resolve, reject) => {
-          reject(err);
-        });
-      }
-      console.log('여기는 서비스', newResult);
+    try {
+      newResult = await mqttUtil.MachineStatusCompare(message, result);
+      logger.debug(`(machineService.StatusCompare) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(machineService.StatusCompare) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+    console.log('여기는 서비스', newResult);
 
-      // status 변동사항이 있으면 update
-      if (newResult !== null) {
-        console.log('변동사항 있어요.');
-        // eslint-disable-next-line consistent-return
-        Object.entries(newResult).forEach((e) => {
-          const params = {
-            code: e[0],
-            status: e[1],
-          };
-          try {
-            machineStatus = machineDao.updateStatus(params);
-            logger.debug(`(machineService.StatusUpdate) ${JSON.stringify(result)}`);
-          } catch (err) {
-            logger.error(`(machineService.StatusUpdate) ${err.toString()}`);
-            return new Promise((resolve, reject) => {
-              reject(err);
-            });
-          }
-          console.log('성공? ', params);
-        });
-      }
+    // status 변동사항이 있으면 update
+    if (newResult !== null) {
+      // eslint-disable-next-line consistent-return
+      Object.entries(newResult).forEach((e) => {
+        const params = {
+          code: e[0],
+          status: e[1],
+        };
+        try {
+          machineStatus = machineDao.updateStatus(params);
+          logger.debug(`(machineService.StatusUpdate) ${JSON.stringify(result)}`);
+        } catch (err) {
+          logger.error(`(machineService.StatusUpdate) ${err.toString()}`);
+          return new Promise((resolve, reject) => {
+            reject(err);
+          });
+        }
+      });
     }
 
     return new Promise((resolve) => {

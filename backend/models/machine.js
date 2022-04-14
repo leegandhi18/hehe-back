@@ -8,7 +8,7 @@ module.exports = class Machine extends Sequelize.Model {
         unique: true,
       },
       status: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING(30),
       },
     }, {
       sequelize,

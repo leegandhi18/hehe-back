@@ -90,7 +90,7 @@ const mqttUtil = {
             machineStatus = { ...machineStatus, [e.name]: Number(e.value) ? 'ON' : 'OFF' };
           }
         });
-        // console.log('machineStatus:', machineStatus);
+        console.log('machineStatus:', machineStatus);
       } catch (err) {
         reject(err);
       }
@@ -104,28 +104,28 @@ const mqttUtil = {
         for (let i = 0; i < Object.entries(machineStatus).length; i += 1) {
           const test = Object.entries(machineStatus);
           // console.log('test', test);
-          // console.log('test[i]', test[i]);
-          // console.log('test[i][0]', test[i][0]);
+          // console.log(`test[${i}]`, test[i]);
+          // console.log(`test[${i}][0]`, test[i][0]);
 
           // 1호기 - 3호기 글자는 db에 저장된 설비code에 맞게 수정해야함
           receivedData.forEach((e) => {
             if (test[i][0] === 'no1_on_off' && e.dataValues.code === '1호기') {
               if (test[i][1] !== e.dataValues.status) {
-                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: Number(test[i][1]) ? 'ON' : 'OFF' };
+                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: test[i][1] };
               }
             } else if (test[i][0] === 'no2_on_off' && e.dataValues.code === '2호기') {
               if (test[i][1] !== e.dataValues.status) {
-                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: Number(test[i][1]) ? 'ON' : 'OFF' };
+                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: test[i][1] };
               }
             } else if (test[i][0] === 'no3_on_off' && e.dataValues.code === '3호기') {
               if (test[i][1] !== e.dataValues.status) {
-                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: Number(test[i][1]) ? 'ON' : 'OFF' };
+                newMachineStatus = { ...newMachineStatus, [e.dataValues.code]: test[i][1] };
               }
             }
           });
         }
 
-        // console.log(newMachineStatus);
+        console.log(newMachineStatus);
       } catch (err) {
         reject(err);
       }

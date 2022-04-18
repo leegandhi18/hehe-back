@@ -83,8 +83,10 @@ app.use((err, req, res, next) => {
 const client = mqtt.connect(process.env.MQTT_HOST0);
 client.subscribe(process.env.MQTT_SUBSCRIBE);
 client.on('message', async (topic, message) => {
+  // plc data tsdb에 저장
   const result = await tsEdukitService.reg(topic, message);
-  const machineStatus = await machineService.StatusEdit(message);
+  // edukit 1~3호기 on/off 상태 업데이트
+  const machineStatus = await machineService.statusEdit(message);
 });
 
 module.exports = app;

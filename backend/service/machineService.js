@@ -22,11 +22,12 @@ const service = {
     });
   },
   // 설비 상태 업데이트
-  async StatusEdit(message) {
+  async statusEdit(message) {
     let result = {};
     let newResult = {};
     let machineStatus = {};
 
+    // RDB에 저장된 설비 상태 출력
     try {
       result = await machineDao.selectList();
       logger.debug(`(machineService.list) ${JSON.stringify(result)}`);
@@ -47,9 +48,8 @@ const service = {
         reject(err);
       });
     }
-    console.log('여기는 서비스', newResult);
 
-    // status 변동사항이 있으면 update
+    // status 변동사항이 있으면 상태 update
     if (newResult !== null) {
       // eslint-disable-next-line consistent-return
       Object.entries(newResult).forEach((e) => {

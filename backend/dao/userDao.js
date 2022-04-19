@@ -74,8 +74,8 @@ const dao = {
         order: [['id', 'DESC']],
         attributes: ['name'],
       })
-        .then((idCehckResult) => {
-          resolve(idCehckResult);
+        .then((idCheckResult) => {
+          resolve(idCheckResult);
         }).catch((err) => {
           reject(err);
         });
@@ -87,8 +87,8 @@ const dao = {
         attributes: ['id', 'name', 'password', 'phone', 'role'],
         where: { name: params.name },
       })
-        .then((idCehckResult) => {
-          resolve(idCehckResult);
+        .then((idCheckResult) => {
+          resolve(idCheckResult);
         }).catch((err) => {
           reject(err);
         });

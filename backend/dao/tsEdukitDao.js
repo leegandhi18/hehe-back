@@ -4,10 +4,10 @@ const TsEdukitQuery = new TsEdukit();
 TsEdukitQuery.useDatabase();
 
 const dao = {
-  selectList() {
+  selectCount(params) {
     return new Promise((resolve, reject) => {
       TsEdukitQuery
-        .query('select')
+        .query(`select No${params.machineCode}Count from plcdata order by DESC limit 1`)
         .then((selectList) => {
           resolve(selectList);
         }).catch((err) => {

@@ -46,6 +46,28 @@ router.route('/')
       res.status(500).json({ err2: err.toString() });
     }
   });
+router.route('/quantityUpdate')
+// 특정 품목 수정
+  .put(async (req, res) => {
+    try {
+      const params = {
+        id: req.params.id,
+        machineCode: req.body.machineCode,
+        name: req.body.itemName,
+        // productQuantity: req.body.productQuantity,
+      };
+      logger.info(`(item.quantityEdit.params) ${JSON.stringify(params)}`);
+
+      // 비즈니스 로직 호출
+      const result = await itemService.quantityEdit(params);
+      logger.info(`(item.quantityEdit.result) ${JSON.stringify(result)}`);
+
+      // 최종 응답
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ err2: err.toString() });
+    }
+  });
 router.route('/:id')
 // 특정 품목 조회
   .get(async (req, res) => {

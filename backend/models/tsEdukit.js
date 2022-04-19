@@ -17,20 +17,20 @@ class TsEdukit extends Influx.InfluxDB {
           ColorSensor: Influx.FieldType.INTEGER,
           VisionSensor: Influx.FieldType.INTEGER,
           Reset: Influx.FieldType.INTEGER,
-          no1_on_off: Influx.FieldType.INTEGER,
-          no2_on_off: Influx.FieldType.INTEGER,
-          no3_on_off: Influx.FieldType.INTEGER,
+          no1_on_off: Influx.FieldType.INTEGER, // 설비 관리 출력
+          no2_on_off: Influx.FieldType.INTEGER, // 설비 관리 출력
+          no3_on_off: Influx.FieldType.INTEGER, // 설비 관리 출력
           sensor1_on_off: Influx.FieldType.INTEGER,
           sensor2_on_off: Influx.FieldType.INTEGER,
           No1Delay: Influx.FieldType.INTEGER,
-          No1Count: Influx.FieldType.INTEGER,
-          No2Count: Influx.FieldType.INTEGER,
-          No3Count: Influx.FieldType.INTEGER,
+          No1Count: Influx.FieldType.INTEGER, // 대시보드 출력
+          No2Count: Influx.FieldType.INTEGER, // 대시보드 출력
+          No3Count: Influx.FieldType.INTEGER, // 대시보드 출력
           lamp_green: Influx.FieldType.INTEGER,
           lamp_yellow: Influx.FieldType.INTEGER,
           lamp_red: Influx.FieldType.INTEGER,
-          No3Motor1: Influx.FieldType.INTEGER,
-          No3Motor2: Influx.FieldType.INTEGER,
+          No3Motor1: Influx.FieldType.INTEGER, // 대시보드 출력
+          No3Motor2: Influx.FieldType.INTEGER, // 대시보드 출력
           No1ChipFull: Influx.FieldType.INTEGER,
           No2Chip: Influx.FieldType.INTEGER,
           No2CubeFull: Influx.FieldType.INTEGER,

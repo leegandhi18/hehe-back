@@ -1,4 +1,5 @@
 /* eslint-disable no-loop-func */
+const res = require('express/lib/response');
 const now = require('performance-now');
 const logger = require('./logger');
 
@@ -131,6 +132,34 @@ const mqttUtil = {
       }
 
       resolve(newMachineStatus);
+    });
+  },
+  updateItemQuantityData(countResult, nowQuantity) {
+    return new Promise((resolve, reject) => {
+      const name = [];
+      const quantity = [];
+      const result = {
+        name,
+        quantity,
+      };
+      try {
+        for (let i = 0; i < 3; i += 1) {
+          if (nowQuantity.rows[i].dataValues.itemId === '재료') {
+            result.name[i] = nowQuantity.rows[i].dataValues.name;
+            result.quantity[i] = nowQuantity.rows[i].dataValues.quantity
+            - countResult[0][`No${1}Count`];
+          } else {
+            result.name[i] = nowQuantity.rows[i].dataValues.name;
+            result.quantity[i] = nowQuantity.rows[i].dataValues.quantity
+            + countResult[0][`No${1}Count`];
+          }
+        }
+        console.log(result);
+      } catch (err) {
+        reject(err);
+      }
+
+      resolve(result);
     });
   },
 };

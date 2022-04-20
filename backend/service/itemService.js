@@ -1,6 +1,7 @@
 const logger = require('../lib/logger');
 const itemDao = require('../dao/itemDao');
 const tsEdukitDao = require('../dao/tsEdukitDao');
+const mqttUtil = require('../lib/mqttUtil');
 
 const service = {
   // 재료 list 조회
@@ -23,22 +24,15 @@ const service = {
   },
   // 작업 후 재료/완성품 재고값 수정
   async quantityEdit(params) {
-    let result = null; // TSDB에서 현재 호기 생산 Count 값
-    let nowQuantity = null; // 재료/완성품 재고 quantity 값
-    let quantity = null; // 기존 재고 + (-1*사용한 재료 or 생산한 완성품) 값
-    let newResult = null; // 재료/완성품 재고 update 결과
-
-    const newParams = {
-      ...params,
-      // 3호기에서 글자 3을 발췌
-      machineCode: params.machineCode.substring(0, 1),
-    };
+    let countResult = null; // TSDB에서 현재 호기 생산 Count 값
+    let nowQuantity = null; // 재료/완성품 현재 재고 quantity 값
+    let updatedQuantity = null; // 재료/완성품 현재 재고 quantity 값
+    let uc = null; // 재료/완성품 재고 update 결과
 
     // TSDB에서 현재 호기 생산 Count select
     try {
-      result = await tsEdukitDao.selectCount(newParams);
-      logger.debug(`(itemService.quantityEdit.tsdb) ${JSON.stringify(result)}`);
-      console.log('result', result);
+      countResult = await tsEdukitDao.selectCount();
+      logger.debug(`(itemService.quantityEdit.tsdb) ${JSON.stringify(countResult)}`);
     } catch (err) {
       logger.error(`(itemService.quantityEdit.tsdb) ${err.toString()}`);
       return new Promise((resolve, reject) => {
@@ -46,7 +40,7 @@ const service = {
       });
     }
 
-    // 현재 재료/완성품 개수 확인
+    // 현재 재료/완성품 개수 select
     try {
       nowQuantity = await itemDao.selectQuantity(params);
       logger.debug(`(itemService.quantityEdit.rdb) ${JSON.stringify(nowQuantity)}`);
@@ -57,30 +51,33 @@ const service = {
       });
     }
 
-    // 사용한 '재료'면 재고에서 빼고,
-    // 생산한 '완성품'이면 재고에서 더한다.
-    if (nowQuantity.itemId === '재료') {
-      result[0][`No${newParams.machineCode}Count`] *= -1;
-    }
-    quantity = nowQuantity.dataValues.quantity + result[0][`No${newParams.machineCode}Count`];
-
-    const itemInfo = {
-      name: params.name,
-      quantity,
-    };
-
+    // 업데이트 할 수 있도록 data 가공
     try {
-      newResult = await itemDao.updateItemQuantity(itemInfo);
-      logger.debug(`(itemService.quantityEdit.rdb) ${JSON.stringify(newResult)}`);
+      updatedQuantity = await mqttUtil.updateItemQuantityData(countResult, nowQuantity);
+      logger.debug(`(itemService.mqttUtil.updateItemQuantityData) ${JSON.stringify(nowQuantity)}`);
     } catch (err) {
-      logger.error(`(itemService.quantityEdit.rdb) ${err.toString()}`);
+      logger.error(`(itemService.mqttUtil.updateItemQuantityData) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
     }
-    console.log('newResult', newResult);
+
+    // update
+    try {
+      uc = { updatedCount: 0 };
+      for (let i = 0; i < updatedQuantity.name.length; i += 1) {
+        const result = await itemDao.updateQuantity(updatedQuantity.name[i], updatedQuantity.quantity[i]);
+        uc.updatedCount += result.updatedCount;
+        logger.debug(`(itemService.itemDao.updateItemQuantity) ${JSON.stringify(result)}`);
+      }
+    } catch (err) {
+      logger.error(`(itemService.itemDao.updateItemQuantity) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
     return new Promise((resolve) => {
-      resolve(newResult);
+      resolve(uc);
     });
   },
   // 재료 등록

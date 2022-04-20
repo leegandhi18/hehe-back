@@ -20,9 +20,8 @@ const dao = {
   },
   selectQuantity(params) {
     return new Promise((resolve, reject) => {
-      Item.findOne({
-        where: { name: params.name },
-        attributes: ['quantity', 'itemId'],
+      Item.findAndCountAll({
+        attributes: { include: ['name', 'quantity'] },
       }).then((selectList) => {
         resolve(selectList);
       }).catch((err) => {
@@ -30,14 +29,14 @@ const dao = {
       });
     });
   },
-  updateItemQuantity(params) {
+  updateQuantity(name, quantity) {
     return new Promise((resolve, reject) => {
       Item.update(
         {
-          quantity: params.quantity,
+          quantity,
         },
         {
-          where: { name: params.name },
+          where: { name },
         },
       ).then(([updated]) => {
         resolve({ updatedCount: updated });
@@ -46,35 +45,6 @@ const dao = {
       });
     });
   },
-  // 서브쿼리 연습해야함
-  // updateItemQuantity(params) {
-  //   return new Promise((resolve, reject) => {
-  //     let B = null;
-  //     const A = new Promise((res, rej) => {
-  //       Item.findOne({
-  //         where: { name: params.name },
-  //         attributes: ['quantity'],
-  //       }).then((call) => {
-  //         setTimeout(() => {
-  //           B = call.dataValues.quantity - params.quantity;
-  //         }, 2000);
-  //       });
-  //     });
-  //     console.log('B: ', B);
-  //     Item.update(
-  //       {
-  //         quantity: B,
-  //       },
-  //       {
-  //         where: { name: params.name },
-  //       },
-  //     ).then((selectList) => {
-  //       resolve(selectList);
-  //     }).catch((err) => {
-  //       reject(err);
-  //     });
-  //   });
-  // },
   insert(params) {
     return new Promise((resolve, reject) => {
       Item.create(params).then((inserted) => {

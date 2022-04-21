@@ -1,3 +1,4 @@
+// influx calss 를 사용하는 다른 예
 // const Influx = require('influx');
 // const influxConfig = require('../config/influxConfig');
 // const models = require('../models/index');

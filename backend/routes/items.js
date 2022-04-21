@@ -52,9 +52,6 @@ router.route('/quantityUpdate')
     try {
       const params = {
         id: req.params.id,
-        machineCode: req.body.machineCode,
-        name: req.body.itemName,
-        // productQuantity: req.body.productQuantity,
       };
       logger.info(`(item.quantityEdit.params) ${JSON.stringify(params)}`);
 

@@ -1,8 +1,9 @@
 const logger = require('../lib/logger');
 const machineHistoryDao = require('../dao/machineHistoryDao');
+const tsEdukitDao = require('../dao/tsEdukitDao');
 
 const service = {
-  // 작업현황 list 조회
+  // 완료이력 list 조회
   async list() {
     let result = null;
 
@@ -20,12 +21,31 @@ const service = {
       resolve(result);
     });
   },
-  // 작업지시서 등록
+  // 완료이력 등록
   async reg(params) {
+    let countResult = null; // TSDB에서 현재 호기 생산 Count 값
     let inserted = null;
 
+    // TSDB에서 현재 호기 생산 Count select
     try {
-      inserted = await machineHistoryDao.insert(params);
+      countResult = await tsEdukitDao.selectCount();
+      logger.debug(`(itemService.quantityEdit.tsdb) ${JSON.stringify(countResult)}`);
+    } catch (err) {
+      logger.error(`(itemService.quantityEdit.tsdb) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+
+    const newParams = {
+      ...params,
+      totalQuantity: countResult[0].No1Count,
+      goodQuantity: countResult[0].No3Count,
+      badQuantity: countResult[0].No1Count - countResult[0].No3Count,
+    };
+
+    try {
+      inserted = await machineHistoryDao.insert(newParams);
       logger.debug(`(machineHistoryService.reg) ${JSON.stringify(inserted)}`);
     } catch (err) {
       logger.error(`(machineHistoryService.reg) ${err.toString()}`);
@@ -38,7 +58,7 @@ const service = {
       resolve(inserted);
     });
   },
-  // 특정 작업지시서 조회
+  // 특정 완료이력 조회
   async info(params) {
     let result = null;
 
@@ -57,7 +77,7 @@ const service = {
     });
   },
 
-  // 특정 작업지시서 수정
+  // 특정 완료이력 수정
   async edit(params) {
     let result = null;
 
@@ -76,7 +96,7 @@ const service = {
     });
   },
 
-  // 특정 작업지시서 삭제
+  // 특정 완료이력 삭제
   async delete(params) {
     let result = null;
 

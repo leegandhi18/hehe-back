@@ -39,6 +39,7 @@ const service = {
         reject(err);
       });
     }
+    console.log(countResult[0].No1Count);
 
     // 현재 재료/완성품 개수 select
     try {

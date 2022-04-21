@@ -2,7 +2,7 @@ const logger = require('../lib/logger');
 const workStatusDao = require('../dao/workStatusDao');
 
 const service = {
-  // 작업현황 list 조회
+  // 작업상태 list 조회
   async list() {
     let result = null;
 
@@ -20,7 +20,7 @@ const service = {
       resolve(result);
     });
   },
-  // 작업지시서 등록
+  // 작업상태 등록
   async reg(params) {
     let inserted = null;
 
@@ -38,7 +38,7 @@ const service = {
       resolve(inserted);
     });
   },
-  // 특정 작업지시서 조회
+  // 특정 작업상태 조회
   async info(params) {
     let result = null;
 
@@ -57,7 +57,7 @@ const service = {
     });
   },
 
-  // 특정 작업지시서 수정
+  // 특정 작업상태 수정
   async edit(params) {
     let result = null;
 
@@ -76,7 +76,7 @@ const service = {
     });
   },
 
-  // 특정 작업지시서 삭제
+  // 특정 작업상태 삭제
   async delete(params) {
     let result = null;
 

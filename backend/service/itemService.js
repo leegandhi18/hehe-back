@@ -29,7 +29,7 @@ const service = {
     let updatedQuantity = null; // 재료/완성품 현재 재고 quantity 값
     let uc = null; // 재료/완성품 재고 update 결과
 
-    // TSDB에서 현재 호기 생산 Count select
+    // TSDB에서 모든 호기 Count와 No2Mode, DiceComparisonValue select
     try {
       countResult = await tsEdukitDao.selectCount();
       logger.debug(`(itemService.quantityEdit.tsdb) ${JSON.stringify(countResult)}`);
@@ -39,9 +39,13 @@ const service = {
         reject(err);
       });
     }
-    console.log(countResult[0].No1Count);
-    console.log(countResult[0].No2Count);
-    console.log(countResult[0].No3Count);
+    // console.log(countResult);
+    // console.log(countResult[0]);
+    // console.log(countResult[0].No1Count);
+    // console.log(countResult[0].No2Count);
+    // console.log(countResult[0].No3Count);
+    // console.log(countResult[0].No2Mode);
+    // console.log(countResult[0].DiceComparisonValue);
 
     // 현재 재료/완성품 개수 select
     try {
@@ -57,7 +61,7 @@ const service = {
 
     // 업데이트 할 수 있도록 data 가공
     try {
-      updatedQuantity = await mqttUtil.updateItemQuantityData(countResult, nowQuantity);
+      updatedQuantity = await mqttUtil.updateItemQuantityData(params, countResult, nowQuantity);
       logger.debug(`(itemService.mqttUtil.updateItemQuantityData) ${JSON.stringify(nowQuantity)}`);
     } catch (err) {
       logger.error(`(itemService.mqttUtil.updateItemQuantityData) ${err.toString()}`);

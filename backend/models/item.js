@@ -16,6 +16,12 @@ module.exports = class Item extends Sequelize.Model {
       machineCode: {
         type: Sequelize.STRING(30),
       },
+      No2Mode: {
+        type: Sequelize.INTEGER,
+      },
+      DiceComparisonValue: {
+        type: Sequelize.INTEGER,
+      },
     }, {
       sequelize,
       // tableName: 'tableName', // table명을 수동으로 생성 함

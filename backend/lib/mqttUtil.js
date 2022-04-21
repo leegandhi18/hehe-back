@@ -134,7 +134,7 @@ const mqttUtil = {
       resolve(newMachineStatus);
     });
   },
-  updateItemQuantityData(countResult, nowQuantity) {
+  updateItemQuantityData(params, countResult, nowQuantity) {
     return new Promise((resolve, reject) => {
       const name = [];
       const quantity = [];
@@ -148,10 +148,14 @@ const mqttUtil = {
             result.name[i] = nowQuantity.rows[i].dataValues.name;
             result.quantity[i] = nowQuantity.rows[i].dataValues.quantity
             - countResult[0][`No${i + 1}Count`];
-          } else {
-            result.name[i] = nowQuantity.rows[i].dataValues.name;
-            result.quantity[i] = nowQuantity.rows[i].dataValues.quantity
-            + countResult[0][`No${i + 1}Count`];
+          } else if (nowQuantity.rows[i].dataValues.itemId === '완제품') {
+            console.log('제품이름1: ', nowQuantity.rows[i].dataValues.name);
+            console.log('제품이름2: ', params.name);
+            if (nowQuantity.rows[i].dataValues.name === params.name) {
+              result.name[i] = nowQuantity.rows[i].dataValues.name;
+              result.quantity[i] = nowQuantity.rows[i].dataValues.quantity
+              + countResult[0][`No${i + 1}Count`];
+            }
           }
           console.log(result);
         }

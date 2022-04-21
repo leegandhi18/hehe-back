@@ -24,6 +24,8 @@ router.route('/')
         quantity: req.body.quantity,
         itemId: req.body.itemId,
         machineCode: req.body.machineCode,
+        No2Mode: req.body.No2Mode,
+        DiceComparisonValue: req.body.DiceComparisonValue,
       };
       logger.info(`(item.reg.params) ${JSON.stringify(params)}`);
 
@@ -52,6 +54,9 @@ router.route('/quantityUpdate')
     try {
       const params = {
         id: req.params.id,
+        name: req.body.name,
+        No2Mode: req.body.No2Mode,
+        DiceComparisonValue: req.body.DiceComparisonValue,
       };
       logger.info(`(item.quantityEdit.params) ${JSON.stringify(params)}`);
 
@@ -91,6 +96,8 @@ router.route('/:id')
         quantity: req.body.quantity,
         itemId: req.body.itemId,
         machineCode: req.body.machineCode,
+        No2Mode: req.body.No2Mode,
+        DiceComparisonValue: req.body.DiceComparisonValue,
       };
       logger.info(`(item.edit.params) ${JSON.stringify(params)}`);
 

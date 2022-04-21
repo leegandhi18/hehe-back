@@ -8,6 +8,7 @@ const dao = {
     return new Promise((resolve, reject) => {
       TsEdukitQuery
         .query('select No1Count, No2Count, No3Count from plcdata order by DESC limit 1')
+        // .query('select No1Count, No2Count, No3Count, No2Mode, DiceComparisonValue from plcdata order by DESC limit 1')
         .then((selectList) => {
           resolve(selectList);
         }).catch((err) => {

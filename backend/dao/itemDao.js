@@ -19,8 +19,11 @@ const dao = {
     });
   },
   selectQuantity(params) {
+    const setQuery = {};
+    setQuery.order = [['machineCode', 'ASC']];
     return new Promise((resolve, reject) => {
       Item.findAndCountAll({
+        ...setQuery,
         attributes: { include: ['name', 'quantity'] },
       }).then((selectList) => {
         resolve(selectList);

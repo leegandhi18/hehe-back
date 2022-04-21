@@ -147,12 +147,13 @@ const mqttUtil = {
           if (nowQuantity.rows[i].dataValues.itemId === '재료') {
             result.name[i] = nowQuantity.rows[i].dataValues.name;
             result.quantity[i] = nowQuantity.rows[i].dataValues.quantity
-            - countResult[0][`No${1}Count`];
+            - countResult[0][`No${i + 1}Count`];
           } else {
             result.name[i] = nowQuantity.rows[i].dataValues.name;
             result.quantity[i] = nowQuantity.rows[i].dataValues.quantity
-            + countResult[0][`No${1}Count`];
+            + countResult[0][`No${i + 1}Count`];
           }
+          console.log(result);
         }
         console.log(result);
       } catch (err) {

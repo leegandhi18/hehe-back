@@ -40,6 +40,8 @@ const service = {
       });
     }
     console.log(countResult[0].No1Count);
+    console.log(countResult[0].No2Count);
+    console.log(countResult[0].No3Count);
 
     // 현재 재료/완성품 개수 select
     try {
@@ -51,6 +53,7 @@ const service = {
         reject(err);
       });
     }
+    console.log('asdf:', nowQuantity.rows);
 
     // 업데이트 할 수 있도록 data 가공
     try {

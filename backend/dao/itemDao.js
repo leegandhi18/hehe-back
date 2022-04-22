@@ -71,6 +71,7 @@ const dao = {
     return new Promise((resolve, reject) => {
       Item.findOne({
         where: { name: params.name },
+        order: [['id', 'DESC']],
         attributes: ['name', 'No2Mode', 'DiceComparisonValue'],
       }).then((selectedInfo) => {
         resolve(selectedInfo);

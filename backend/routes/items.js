@@ -70,6 +70,23 @@ router.route('/quantityUpdate')
       res.status(500).json({ err2: err.toString() });
     }
   });
+router.route('/product/:name')
+// 특정 품목 조회
+  .get(async (req, res) => {
+    try {
+      const params = {
+        name: req.params.name,
+      };
+      logger.info(`(itemProduct.info.params) ${JSON.stringify(params)}`);
+
+      const result = await itemService.itemInfo(params);
+      logger.info(`(itemProduct.info.result) ${JSON.stringify(result)}`);
+
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json({ err: err.toString() });
+    }
+  });
 router.route('/:id')
 // 특정 품목 조회
   .get(async (req, res) => {
@@ -135,23 +152,6 @@ router.route('/:id')
       res.status(200).json(result);
     } catch (err) {
       res.status(500).json({ err2: err.toString() });
-    }
-  });
-router.route('/:name')
-// 특정 품목 조회
-  .get(async (req, res) => {
-    try {
-      const params = {
-        name: req.params.name,
-      };
-      logger.info(`(itemProduct.info.params) ${JSON.stringify(params)}`);
-
-      const result = await itemService.itemInfo(params);
-      logger.info(`(itemProduct.info.result) ${JSON.stringify(result)}`);
-
-      res.status(200).json(result);
-    } catch (err) {
-      res.status(500).json({ err: err.toString() });
     }
   });
 

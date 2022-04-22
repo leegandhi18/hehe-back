@@ -125,15 +125,15 @@ const service = {
     });
   },
 
-  // 특정 재료 조회
+  // 작업 시작 시 재료 조회
   async itemInfo(params) {
     let result = null;
 
     try {
       result = await itemDao.selectItemInfo(params);
-      logger.debug(`(itemService.info) ${JSON.stringify(result)}`);
+      logger.debug(`(itemService.itemInfo) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(itemService.info) ${err.toString()}`);
+      logger.error(`(itemService.itemInfo) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });

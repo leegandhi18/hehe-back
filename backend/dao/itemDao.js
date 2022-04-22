@@ -66,6 +66,19 @@ const dao = {
       });
     });
   },
+  // 작업 시작 버튼 누르면 해당 완제품 내용 조회
+  selectItemInfo(params) {
+    return new Promise((resolve, reject) => {
+      Item.findOne({
+        where: { name: params.name },
+        attributes: ['name', 'No2Mode', 'DiceComparisonValue'],
+      }).then((selectedInfo) => {
+        resolve(selectedInfo);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
   update(params) {
     return new Promise((resolve, reject) => {
       Item.update(

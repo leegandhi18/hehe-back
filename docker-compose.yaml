@@ -16,6 +16,7 @@ services:
       - 5432:5432
   grafana: 
     image: joohyunlee/grafana:latest
+    container_name: grafana
     ports: 
       - '3005:3000'
     networks:
@@ -28,7 +29,7 @@ services:
     user: root
   influxdb: 
     image: influxdb:1.8.10 
-    # container_name: influx
+    container_name: influx
     ports: 
       - '8086:8086'
       # - '8087:8086'
@@ -44,7 +45,50 @@ services:
     stdin_open: true
     volumes: 
       - ./influx/config:/etc/influxdb
-      - ./influxdb:/var/lib/influxdb 
+      - ./influxdb:/var/lib/influxdb
+  # backend build
+  # backend:
+  #   container_name: backend
+  #   depends_on:
+  #     - postgres
+  #   build: 
+  #     context: ./backend
+  #     dockerfile: backend.dev.dockerfile
+  #   image: leegandhi18/edukit_backend
+  #   volumes:
+  #     - ./backend:/usr/src/app
+  #     #- /usr/src/app/node_modules
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NODE_ENV=development
+  #     - PORT=3000
+  #     - LOGGER_LEVEL=debug
+  #     - DB_HOST=database
+  #     - DB_PORT=5432
+  #     - DB_DATABASE=EDUKiT_database
+  #     - DB_ID=postgres
+  #     - DB_PASS=postgres
+  #     - DB_DIALECT=postgres
+  #   restart: "unless-stopped"
+  #   # command: "npm start"
+  #   command: "npm run dev"
+
+  # frontend build
+  # frontend:
+  #   container_name: frontend
+  #   depends_on:
+  #     - backend
+  #   build: 
+  #     context: ./frontend
+  #     dockerfile: frontend.dev.dockerfile
+  #   image: leegandhi18/edukit_frontend
+  #   volumes:
+  #     - ./frontend:/app
+  #     #- app/node_modules
+  #   ports:
+  #     - "8080:8080"
+  
   # telegraf:
   #   image: telegraf
   #   container_name: telegraf

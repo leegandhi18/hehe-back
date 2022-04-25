@@ -7,10 +7,12 @@ WORKDIR /usr/src/app
 # 가능한 경우(npm@5+) package.json과 package-lock.json을 모두 복사하기 위해
 # 와일드카드를 사용
 COPY package*.json ./
+RUN npm install nodemon -d
 RUN npm install
 # 앱 소스 추가
 COPY . /usr/src/app
 # 3000번 포트 연결
 EXPOSE 3000
 # nodemon으로 실행
-CMD [ "npm", "start" ]
+# CMD [ "npm", "start" ]
+CMD [ "npm", "run", "dev" ]

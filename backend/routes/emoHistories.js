@@ -2,11 +2,12 @@ const express = require('express');
 
 const router = express.Router();
 const logger = require('../lib/logger');
+const { isLoggedIn } = require('../lib/middleware');
 const emoHistoryService = require('../service/emoHistoryService');
 
 router.route('/')
 // 중단이력 list 조회
-  .get(async (req, res) => {
+  .get(isLoggedIn, async (req, res) => {
     try {
       const result = await emoHistoryService.list();
       logger.info(`(emoHistory.list.result) ${JSON.stringify(result)}`);
@@ -17,7 +18,7 @@ router.route('/')
     }
   })
   // 중단이력 등록
-  .post(async (req, res) => {
+  .post(isLoggedIn, async (req, res) => {
     try {
       const params = {
         workNum: req.body.workNum,
@@ -50,7 +51,7 @@ router.route('/')
   });
 router.route('/:workNum')
 // 특정 중단이력 조회
-  .get(async (req, res) => {
+  .get(isLoggedIn, async (req, res) => {
     try {
       const params = {
         id: req.params.id,
@@ -67,7 +68,7 @@ router.route('/:workNum')
     }
   })
   // 특정 중단이력 수정
-  .put(async (req, res) => {
+  .put(isLoggedIn, async (req, res) => {
     try {
       const params = {
         id: req.params.id,
@@ -98,7 +99,7 @@ router.route('/:workNum')
     }
   })
   // 특정 중단이력 삭제
-  .delete(async (req, res) => {
+  .delete(isLoggedIn, async (req, res) => {
     try {
       const params = {
         id: req.params.id,
